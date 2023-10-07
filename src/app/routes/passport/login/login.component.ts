@@ -35,8 +35,10 @@ export class UserLoginComponent implements OnDestroy {
   // #region fields
 
   form = this.fb.nonNullable.group({
-    username: ['', [Validators.required, Validators.pattern(/^(admin|user)$/)]],
-    password: ['', [Validators.required, Validators.pattern(/^(ng\-alain\.com)$/)]],
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required]],
+    // username: ['', [Validators.required, Validators.pattern(/^(admin|user)$/)]],
+    // password: ['', [Validators.required, Validators.pattern(/^(ng\-alain\.com)$/)]],
     mobile: ['', [Validators.required, Validators.pattern(/^1\d{10}$/)]],
     captcha: ['', [Validators.required]],
     remember: [true]
@@ -77,12 +79,12 @@ export class UserLoginComponent implements OnDestroy {
   submit(): void {
     this.error = '';
     if (this.type === 0) {
-      const { username: userName, password } = this.form.controls;
-      userName.markAsDirty();
-      userName.updateValueAndValidity();
+      const { username: username, password } = this.form.controls;
+      username.markAsDirty();
+      username.updateValueAndValidity();
       password.markAsDirty();
       password.updateValueAndValidity();
-      if (userName.invalid || password.invalid) {
+      if (username.invalid || password.invalid) {
         return;
       }
     } else {
@@ -129,7 +131,7 @@ export class UserLoginComponent implements OnDestroy {
         this.reuseTabService.clear();
         // 设置用户Token信息
         // TODO: Mock expired value
-        res.user.expired = +new Date() + 1000 * 60 * 5;
+        // res.user.expired = new Date().getTime() + 1000 * 60 * 5;
         this.tokenService.set(res.user);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
         this.startupSrv.load().subscribe(() => {

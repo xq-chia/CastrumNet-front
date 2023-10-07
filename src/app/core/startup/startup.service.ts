@@ -32,7 +32,7 @@ export class StartupService {
 
   
     private viaHttp(): Observable<void> {
-      return this.httpClient.get('assets/tmp/app-data.json').pipe(
+      return this.httpClient.get('init/app').pipe(
         catchError((res: NzSafeAny) => {
           console.warn(`StartupService.load: Network request failed`, res);
           setTimeout(() => this.router.navigateByUrl(`/exception/500`));
@@ -100,9 +100,9 @@ export class StartupService {
 
   load(): Observable<void> {
     // http
-    // return this.viaHttp();
+    return this.viaHttp();
     // mock: Don’t use it in a production environment. ViaMock is just to simulate some data to make the scaffolding work normally
     // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
-    return this.viaMock();
+    // return this.viaMock();
   }
 }
