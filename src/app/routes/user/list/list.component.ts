@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
+import { UserCreateComponent } from '../create/create.component';
 
 @Component({
   selector: 'app-user-list',
@@ -37,9 +38,9 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void { }
 
   add(): void {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+    this.modal
+      .createStatic(UserCreateComponent)
+      .subscribe(() => this.st.reload());
   }
 
 }
