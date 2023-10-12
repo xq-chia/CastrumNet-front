@@ -1,8 +1,10 @@
 import { NgModule, Type } from '@angular/core';
 import { SharedModule } from '@shared';
 import { UserRoutingModule } from './user-routing.module';
+import { UserListComponent } from './list/list.component';
 
-const COMPONENTS: Type<void>[] = [];
+const COMPONENTS: Type<void>[] = [
+  UserListComponent];
 
 @NgModule({
   imports: [
