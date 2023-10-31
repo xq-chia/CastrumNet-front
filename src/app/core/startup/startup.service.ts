@@ -70,6 +70,7 @@ export class StartupService {
       name: 'Admin',
       avatar: './assets/tmp/img/avatar.jpg',
       email: 'cipchk@qq.com',
+      // TODO: no need to provide token in mock init
       token: '123456789'
     };
     // Application information: including site name, description, year
