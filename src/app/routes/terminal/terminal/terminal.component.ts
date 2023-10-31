@@ -21,8 +21,12 @@ export class TerminalTerminalComponent implements OnInit, AfterViewInit {
     this.child.onData().subscribe((input) => {
       switch (input) {
         case '\r':
-          this.child.write(this.prompt);
+          this.nextLine();
       }
     })
+  }
+
+  private nextLine(): void {
+    this.child.write(this.prompt);
   }
 }
