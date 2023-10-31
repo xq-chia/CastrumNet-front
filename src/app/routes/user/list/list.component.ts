@@ -3,6 +3,8 @@ import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { UserCreateComponent } from '../create/create.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-user-list',
@@ -27,20 +29,42 @@ export class UserListComponent implements OnInit {
     {
       title: '',
       buttons: [
-        // { text: '查看', click: (item: any) => `/form/${item.id}` },
+        { text: 'Freeze', click: (item: any) => this.freeze(item)}
+        // { text: 'Freeze', click: (item: any) => console.log(item), modal:this.modal.create },
         // { text: '编辑', type: 'static', component: FormEditComponent, click: 'reload' },
       ]
     }
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) { }
+  constructor(
+    private http: _HttpClient, 
+    private modal: ModalHelper,
+    private modalSrv: NzModalService,
+    private msgSrv: NzMessageService
+    ) { }
 
   ngOnInit(): void { }
 
+  freeze(user: any): void {
+    this.modalSrv.confirm({
+      nzTitle: 'You are freezing an employee',
+      nzContent: 'User: ' + user.username,
+      nzOkText: 'Delete',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.http.patch(`/users/freeze/${user.userId}`)
+        .subscribe(res => {
+          this.msgSrv.success(`${user.username} has been frozen`);
+        }),
+      nzCancelText: 'Cancel',
+      nzOnCancel: () => console.log('cancel')
+    });
+  }
+
   add(): void {
     this.modal
-      .createStatic(UserCreateComponent)
-      .subscribe(() => this.st.reload());
+    .createStatic(UserCreateComponent)
+    .subscribe(() => this.st.reload());
   }
 
 }
