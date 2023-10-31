@@ -49,7 +49,7 @@ export class UserListComponent implements OnInit {
     this.modalSrv.confirm({
       nzTitle: 'You are freezing an employee',
       nzContent: 'User: ' + user.username,
-      nzOkText: 'Delete',
+      nzOkText: 'Freeze',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => this.http.patch(`/users/freeze/${user.userId}`)
