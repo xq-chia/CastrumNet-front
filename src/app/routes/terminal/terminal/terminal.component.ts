@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import { FunctionsUsingCSI, NgTerminal } from 'ng-terminal';
+import { NgTerminal } from 'ng-terminal';
 import { TerminalService } from './terminal.service';
 
 @Component({
