@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { io } from 'socket.io-client';
 
 @Injectable({
@@ -6,8 +7,13 @@ import { io } from 'socket.io-client';
 })
 export class TerminalService {
   readonly io = io('ws://localhost:3000');
+  outputs = new Subject<string>();
 
-  constructor() { }
+  constructor() {
+    this.io.on('message', data => {
+      this.outputs.next(data);
+    })
+  }
 
   async execute(command: string) {
     this.io.send(command);
