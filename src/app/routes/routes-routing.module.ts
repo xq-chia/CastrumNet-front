@@ -27,7 +27,8 @@ const routes: Routes = [
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
-     { path: 'user', loadChildren: () => import('./user/user.module').then((m) => m.UserModule) },  { path: 'terminal', loadChildren: () => import('./terminal/terminal.module').then((m) => m.TerminalModule) }]
+     { path: 'user', loadChildren: () => import('./user/user.module').then((m) => m.UserModule) }, 
+     { path: 'terminal', loadChildren: () => import('./terminal/terminal.module').then((m) => m.TerminalModule) },  { path: 'role', loadChildren: () => import('./role/role.module').then((m) => m.RoleModule) }]
   },
   // 空白布局
   // {
