@@ -7,15 +7,12 @@ import { io } from 'socket.io-client';
 })
 export class TerminalService {
   readonly io = io('ws://localhost:3000');
-  outputs = new Subject<string>();
 
-  constructor() {
-    this.io.on('message', data => {
-      this.outputs.next(data);
-    })
+  async execute(data: string) {
+    this.io.send(data);
   }
 
-  async execute(command: string) {
-    this.io.send(command);
+  async updateBuffer(buffer: string) {
+    this.io.emit('buffer', buffer)
   }
 }
