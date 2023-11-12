@@ -3,14 +3,14 @@ import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { map } from 'rxjs';
 import { RoleService } from '../role.service';
+import { map } from 'rxjs';
 
 @Component({
-  selector: 'app-role-create',
-  templateUrl: './create.component.html'
+  selector: 'app-role-edit',
+  templateUrl: './edit.component.html',
 })
-export class RoleCreateComponent implements OnInit {
+export class RoleEditComponent implements OnInit {
   record: any = {};
   i: any;
   schema: SFSchema = {
@@ -23,7 +23,6 @@ export class RoleCreateComponent implements OnInit {
         type: 'array',
         title: 'Permission',
         minItems: 1,
-        default: [{}],
         items: {
           type: 'object',
           properties: {
@@ -33,7 +32,7 @@ export class RoleCreateComponent implements OnInit {
         }
       }
     },
-    required: ['roleId', 'role', 'description']
+    required: ['owner', 'callNo', 'href', 'description'],
   };
   ui: SFUISchema = {
     $parentIds: {
@@ -54,17 +53,20 @@ export class RoleCreateComponent implements OnInit {
 
   constructor(
     private modal: NzModalRef,
-    private msgSrv: NzMessageService,
     public http: _HttpClient,
     private roleService: RoleService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.record.roleId > 0) {
+      this.http.get(`/role/${this.record.roleId}`).subscribe(res => {
+        this.i = res;
+      });
+    }
+  }
 
-  save(value: any): void {
-    console.log(value)
-    this.http.post(`/role`, value).subscribe(res => {
-      this.msgSrv.success('Role Created');
+  edit(value: any): void {
+    this.http.patch(`/role/${this.record.roleId}`, value).subscribe(res => {
       this.modal.close(true);
     });
   }
