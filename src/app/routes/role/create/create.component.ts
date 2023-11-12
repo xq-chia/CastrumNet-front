@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { SFSchema, SFSchemaEnumType, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { Observable, Subject, delay, map, of, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { RoleService } from '../role.service';
 
 @Component({
   selector: 'app-role-create',
-  templateUrl: './create.component.html',
+  templateUrl: './create.component.html'
 })
 export class RoleCreateComponent implements OnInit {
   record: any = {};
@@ -18,18 +18,38 @@ export class RoleCreateComponent implements OnInit {
       roleId: { type: 'number', title: 'Role Id' },
       role: { type: 'string', title: 'Role' },
       description: { type: 'string', title: 'Description' },
-      parentIds: { type: 'string', title: 'Role Inheritance' }
+      parentIds: { type: 'string', title: 'Role Inheritance' },
+      permissions: {
+        type: 'array',
+        title: 'Permission',
+        minItems: 1,
+        default: [{}],
+        items: {
+          type: 'object',
+          properties: {
+            object: { type: 'string', title: 'Command' },
+            allow: { type: 'boolean', title: 'Rule' }
+          }
+        }
+      }
     },
-    required: ['roleId', 'role', 'description'],
+    required: ['roleId', 'role', 'description']
   };
   ui: SFUISchema = {
     $parentIds: {
       widget: 'select',
       mode: 'tags',
       default: null,
-      asyncData: () => this.fetchAllRoles().pipe(
-        map(roles => roles.map(role => this.convertRoleToSchema(role)))
-      )
+      asyncData: () => this.fetchAllRoles().pipe(map(roles => roles.map(role => this.convertRoleToSchema(role))))
+    },
+    $permissions: {
+      grid: { arraySpan: 24 },
+      $items: {
+        $allow: {
+          checkedChildren: 'Allow',
+          unCheckedChildren: 'Deny'
+        }
+      }
     }
   };
 
@@ -40,9 +60,10 @@ export class RoleCreateComponent implements OnInit {
     private roleService: RoleService
   ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   save(value: any): void {
+    console.log(value)
     this.http.post(`/role`, value).subscribe(res => {
       this.msgSrv.success('Role Created');
       this.modal.close(true);
@@ -52,9 +73,9 @@ export class RoleCreateComponent implements OnInit {
   close(): void {
     this.modal.destroy();
   }
-  
+
   fetchAllRoles() {
-    return this.roleService.fetchAllRoles()
+    return this.roleService.fetchAllRoles();
   }
 
   convertRoleToSchema(role: any) {
