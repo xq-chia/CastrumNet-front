@@ -37,7 +37,7 @@ export class RoleListComponent implements OnInit {
             title: 'Details',
             component: RoleDetailsComponent,
             size: 'xl'
-          },
+          }
         },
         {
           text: 'Edit',
@@ -48,9 +48,26 @@ export class RoleListComponent implements OnInit {
           },
           click: (i, modal) => {
             if (modal) {
-              this.msgSrv.success('Role Edited')
+              this.msgSrv.success('Role Edited');
             }
             this.st.reload();
+          }
+        },
+        {
+          text: 'Delete',
+          icon: 'delete',
+          type: 'del',
+          className: 'text-red-light',
+          pop: {
+            title: 'Are you sure you want to delete the role?',
+            okType: 'danger',
+            icon: 'warning'
+          },
+          click: record => {
+            this.http.delete(`/role/${record.roleId}`).subscribe(res => {
+              this.msgSrv.success('Role Deleted');
+              this.st.reload();
+            })
           }
         }
       ]
@@ -58,22 +75,18 @@ export class RoleListComponent implements OnInit {
   ];
 
   constructor(
-    private http: _HttpClient, 
+    private http: _HttpClient,
     private modal: ModalHelper,
-    private msgSrv: NzMessageService,
+    private msgSrv: NzMessageService
   ) {}
 
   ngOnInit(): void {}
 
   add(): void {
-    this.modal
-    .createStatic(RoleCreateComponent)
-    .subscribe(() => this.st.reload());
+    this.modal.createStatic(RoleCreateComponent).subscribe(() => this.st.reload());
   }
 
   viewDetails(role: any) {
-    this.modal
-    .createStatic(RoleCreateComponent)
-    .subscribe(() => this.st.reload());
+    this.modal.createStatic(RoleCreateComponent).subscribe(() => this.st.reload());
   }
 }
