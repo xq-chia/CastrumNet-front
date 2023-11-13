@@ -61,6 +61,7 @@ export class RoleListComponent implements OnInit {
           pop: {
             title: 'Are you sure you want to delete the role?',
             okType: 'danger',
+            okText: 'Delete',
             icon: 'warning'
           },
           click: record => {
