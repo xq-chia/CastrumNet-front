@@ -29,7 +29,23 @@ export class UserListComponent implements OnInit {
     {
       title: '',
       buttons: [
-        { text: 'Freeze', click: (item: any) => this.freeze(item)}
+        {
+          text: 'Freeze',
+          icon: 'lock',
+          type: 'del',
+          pop: {
+            title: 'Are you sure you want to freeze the user?',
+            okType: 'danger',
+            okText: 'Freeze',
+            icon: 'warning'
+          },
+          click: record => {
+            this.http.patch(`/users/freeze/${record.userId}`)
+              .subscribe(res => {
+                this.msgSrv.success(`${record.username} has been frozen`);
+              })
+          }
+        },
         // { text: 'Freeze', click: (item: any) => console.log(item), modal:this.modal.create },
         // { text: '编辑', type: 'static', component: FormEditComponent, click: 'reload' },
       ]
@@ -45,26 +61,10 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  freeze(user: any): void {
-    this.modalSrv.confirm({
-      nzTitle: 'You are freezing an employee',
-      nzContent: 'User: ' + user.username,
-      nzOkText: 'Freeze',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => this.http.patch(`/users/freeze/${user.userId}`)
-        .subscribe(res => {
-          this.msgSrv.success(`${user.username} has been frozen`);
-        }),
-      nzCancelText: 'Cancel',
-      nzOnCancel: () => console.log('cancel')
-    });
-  }
-
   add(): void {
     this.modal
-    .createStatic(UserCreateComponent)
-    .subscribe(() => this.st.reload());
+      .createStatic(UserCreateComponent)
+      .subscribe(() => this.st.reload());
   }
 
 }
