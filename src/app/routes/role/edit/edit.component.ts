@@ -60,6 +60,7 @@ export class RoleEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.record.roleId > 0) {
       this.http.get(`/role/${this.record.roleId}`).subscribe(res => {
+        res.parentIds = res.parentRoles.map((role: any) => role.roleId),
         this.i = res;
       });
     }
