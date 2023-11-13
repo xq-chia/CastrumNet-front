@@ -31,6 +31,7 @@ export class RoleListComponent implements OnInit {
       buttons: [
         {
           text: 'Details',
+          icon: 'bars',
           type: 'drawer',
           drawer: {
             title: 'Details',
@@ -40,6 +41,7 @@ export class RoleListComponent implements OnInit {
         },
         {
           text: 'Edit',
+          icon: 'edit',
           type: 'modal',
           modal: {
             component: RoleEditComponent
