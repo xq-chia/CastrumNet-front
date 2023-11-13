@@ -46,8 +46,4 @@ export class RoleDetailsComponent implements OnInit {
   close(): void {
     this.drawer.close();
   }
-
-  reload(): void {
-    this.parentTbl.addRow({parentIds: 1})
-  }
 }
