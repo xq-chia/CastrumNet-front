@@ -50,9 +50,27 @@ export class UserListComponent implements OnInit {
           },
           click: (i, modal) => {
             if (modal) {
-              this.msgSrv.success('Role Edited');
+              this.msgSrv.success('User Edited');
             }
             this.st.reload();
+          }
+        },
+        {
+          text: 'Delete',
+          icon: 'delete',
+          type: 'del',
+          className: 'text-red-light',
+          pop: {
+            title: 'Are you sure you want to delete the user?',
+            okType: 'danger',
+            okText: 'Delete',
+            icon: 'warning'
+          },
+          click: record => {
+            this.http.delete(`/users/${record.userId}`).subscribe(res => {
+              this.msgSrv.success('User Deleted');
+              this.st.reload();
+            })
           }
         },
         {
@@ -73,8 +91,6 @@ export class UserListComponent implements OnInit {
               })
           }
         },
-        // { text: 'Freeze', click: (item: any) => console.log(item), modal:this.modal.create },
-        // { text: '编辑', type: 'static', component: FormEditComponent, click: 'reload' },
       ]
     }
   ];
