@@ -62,7 +62,6 @@ export class RoleCreateComponent implements OnInit {
   ngOnInit(): void {}
 
   save(value: any): void {
-    console.log(value)
     this.http.post(`/role`, value).subscribe(res => {
       this.msgSrv.success('Role Created');
       this.modal.close(true);
