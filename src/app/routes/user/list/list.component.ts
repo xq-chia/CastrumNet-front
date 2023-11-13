@@ -6,6 +6,7 @@ import { UserCreateComponent } from '../create/create.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UserDetailsComponent } from '../details/details.component';
+import { UserEditComponent } from '../edit/edit.component';
 
 @Component({
   selector: 'app-user-list',
@@ -38,6 +39,20 @@ export class UserListComponent implements OnInit {
             title: 'Details',
             component: UserDetailsComponent,
             size: 'xl'
+          }
+        },
+        {
+          text: 'Edit',
+          icon: 'edit',
+          type: 'modal',
+          modal: {
+            component: UserEditComponent
+          },
+          click: (i, modal) => {
+            if (modal) {
+              this.msgSrv.success('Role Edited');
+            }
+            this.st.reload();
           }
         },
         {
