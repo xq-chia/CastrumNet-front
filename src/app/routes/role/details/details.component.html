@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <div class="modal-title">查看 {{ record.roleId }} 信息</div>
+</div>
+<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
+<div sv-container *ngIf="i" col="1">
+  <sv label="Role">{{ i.role }}</sv>
+  <sv label="Description">{{ i.description }}</sv>
+  <sv-title>Role Inheritance</sv-title>
+  <sv hideLabel col="1">
+    <st #parentTbl [data]="url" [columns]="parentCol" [res] = "res"></st>
+  </sv>
+</div>
+<div class="modal-footer"></div>

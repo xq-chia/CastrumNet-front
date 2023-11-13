@@ -4,11 +4,13 @@ import { RoleRoutingModule } from './role-routing.module';
 import { RoleListComponent } from './list/list.component';
 import { RoleCreateComponent } from './create/create.component';
 import { RoleEditComponent } from './edit/edit.component';
+import { RoleDetailsComponent } from './details/details.component';
 
 const COMPONENTS: Type<void>[] = [
   RoleListComponent,
   RoleCreateComponent,
-  RoleEditComponent];
+  RoleEditComponent,
+  RoleDetailsComponent];
 
 @NgModule({
   imports: [

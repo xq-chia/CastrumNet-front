@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { STColumn, STComponent } from '@delon/abc/st';
+import { STColumn, STComponent, STRes } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { RoleCreateComponent } from '../create/create.component';
 import { RoleEditComponent } from '../edit/edit.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { RoleDetailsComponent } from '../details/details.component';
 
 @Component({
   selector: 'app-role-list',
@@ -28,6 +29,15 @@ export class RoleListComponent implements OnInit {
     {
       title: '',
       buttons: [
+        {
+          text: 'Details',
+          type: 'drawer',
+          drawer: {
+            title: 'Details',
+            component: RoleDetailsComponent,
+            size: 'xl'
+          },
+        },
         {
           text: 'Edit',
           type: 'modal',
