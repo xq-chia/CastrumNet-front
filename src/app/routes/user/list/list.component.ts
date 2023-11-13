@@ -5,6 +5,7 @@ import { ModalHelper, _HttpClient } from '@delon/theme';
 import { UserCreateComponent } from '../create/create.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { UserDetailsComponent } from '../details/details.component';
 
 @Component({
   selector: 'app-user-list',
@@ -30,6 +31,16 @@ export class UserListComponent implements OnInit {
       title: '',
       buttons: [
         {
+          text: 'Details',
+          icon: 'bars',
+          type: 'drawer',
+          drawer: {
+            title: 'Details',
+            component: UserDetailsComponent,
+            size: 'xl'
+          }
+        },
+        {
           text: 'Freeze',
           icon: 'lock',
           type: 'del',
@@ -43,6 +54,7 @@ export class UserListComponent implements OnInit {
             this.http.patch(`/users/freeze/${record.userId}`)
               .subscribe(res => {
                 this.msgSrv.success(`${record.username} has been frozen`);
+                this.st.reload();
               })
           }
         },

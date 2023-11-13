@@ -1,0 +1,10 @@
+<div class="modal-header">
+  <div class="modal-title">{{ concatName(record.firstName, record.lastName) }} Profile</div>
+</div>
+<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
+<div sv-container *ngIf="i" col="1">
+  <sv label="Username">{{ i.username }}</sv>
+  <sv label="Name">{{ concatName(i.firstName, i.lastName) }}</sv>
+  <sv label="Tenant Type">{{ i.tenant }}</sv>
+</div>
+<div class="modal-footer"></div>
