@@ -10,7 +10,7 @@ import { UserEditComponent } from '../edit/edit.component';
 
 @Component({
   selector: 'app-user-list',
-  templateUrl: './list.component.html',
+  templateUrl: './list.component.html'
 })
 export class UserListComponent implements OnInit {
   url = `/users`;
@@ -70,44 +70,45 @@ export class UserListComponent implements OnInit {
             this.http.delete(`/users/${record.userId}`).subscribe(res => {
               this.msgSrv.success('User Deleted');
               this.st.reload();
-            })
+            });
           }
         },
         {
-          text: 'Freeze',
-          icon: 'lock',
-          type: 'del',
-          pop: {
-            title: 'Are you sure you want to freeze the user?',
-            okType: 'danger',
-            okText: 'Freeze',
-            icon: 'warning'
-          },
-          click: record => {
-            this.http.patch(`/users/freeze/${record.userId}`)
-              .subscribe(res => {
-                this.msgSrv.success(`${record.username} has been frozen`);
-                this.st.reload();
-              })
-          }
-        },
+          text: 'More ',
+          children: [
+            {
+              text: 'Freeze',
+              icon: 'lock',
+              type: 'del',
+              pop: {
+                title: 'Are you sure you want to freeze the user?',
+                okType: 'danger',
+                okText: 'Freeze',
+                icon: 'warning'
+              },
+              click: record => {
+                this.http.patch(`/users/freeze/${record.userId}`).subscribe(res => {
+                  this.msgSrv.success(`${record.username} has been frozen`);
+                  this.st.reload();
+                });
+              }
+            }
+          ],
+        }
       ]
     }
   ];
 
   constructor(
-    private http: _HttpClient, 
+    private http: _HttpClient,
     private modal: ModalHelper,
     private modalSrv: NzModalService,
     private msgSrv: NzMessageService
-    ) { }
+  ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   add(): void {
-    this.modal
-      .createStatic(UserCreateComponent)
-      .subscribe(() => this.st.reload());
+    this.modal.createStatic(UserCreateComponent).subscribe(() => this.st.reload());
   }
-
 }
