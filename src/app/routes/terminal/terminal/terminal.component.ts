@@ -20,11 +20,11 @@ export class TerminalTerminalComponent implements OnInit, AfterViewInit {
     private notificationService: NzNotificationService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.socketService.init()
+  }
 
   ngAfterViewInit(): void {
-    this.init()
-
     this.term.onData().subscribe(data => {
       this.socketService.execute(data);
     })
@@ -53,13 +53,6 @@ export class TerminalTerminalComponent implements OnInit, AfterViewInit {
 
     this.socket.on('error', msg => {
       this.notificationService.error('Execution Failed', msg)
-
     })
-  }
-
-  init() {
-    // Ctrl+L 
-    // redraw to display prompt
-    this.socketService.execute('\u000c')
   }
 }

@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TerminalService {
-  readonly io = io('ws://localhost:3000');
+  io: Socket = io('ws://localhost:3000');
+
+  async init() {
+    this.io.emit('init')
+  }
 
   async execute(data: string) {
     this.io.send(data);
