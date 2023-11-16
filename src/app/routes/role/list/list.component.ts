@@ -86,8 +86,4 @@ export class RoleListComponent implements OnInit {
   add(): void {
     this.modal.createStatic(RoleCreateComponent).subscribe(() => this.st.reload());
   }
-
-  viewDetails(role: any) {
-    this.modal.createStatic(RoleCreateComponent).subscribe(() => this.st.reload());
-  }
 }
