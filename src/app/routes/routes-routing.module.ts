@@ -28,7 +28,10 @@ const routes: Routes = [
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
      { path: 'user', loadChildren: () => import('./user/user.module').then((m) => m.UserModule) }, 
-     { path: 'terminal', loadChildren: () => import('./terminal/terminal.module').then((m) => m.TerminalModule) },  { path: 'role', loadChildren: () => import('./role/role.module').then((m) => m.RoleModule) }]
+     { path: 'terminal', loadChildren: () => import('./terminal/terminal.module').then((m) => m.TerminalModule) },
+     { path: 'role', loadChildren: () => import('./role/role.module').then((m) => m.RoleModule) },
+     { path: 'host', loadChildren: () => import('./host/host.module').then((m) => m.HostModule) }
+    ]
   },
   // 空白布局
   // {

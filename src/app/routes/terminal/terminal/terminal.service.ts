@@ -7,8 +7,8 @@ import { io, Socket } from 'socket.io-client';
 export class TerminalService {
   io: Socket = io('ws://localhost:3000');
 
-  async init() {
-    this.io.emit('init')
+  async init(hostId: number) {
+    this.io.emit('init', hostId)
   }
 
   async execute(data: string) {

@@ -4,6 +4,7 @@ import { TerminalService } from './terminal.service';
 import { BehaviorSubject, Subject, elementAt, first, firstValueFrom, take } from 'rxjs';
 import { Socket } from 'socket.io-client';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-terminal-terminal',
@@ -14,14 +15,20 @@ export class TerminalTerminalComponent implements OnInit, AfterViewInit {
   buffer$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   socket: Socket = this.socketService.io;
   messageOutput$ = new Subject<string>();
+  hostId!: number;
 
   constructor(
     private socketService: TerminalService,
-    private notificationService: NzNotificationService
+    private notificationService: NzNotificationService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.socketService.init()
+    this.route.params.subscribe(params => {
+      this.hostId = params['hostId']
+    });
+
+    this.socketService.init(this.hostId);
   }
 
   ngAfterViewInit(): void {

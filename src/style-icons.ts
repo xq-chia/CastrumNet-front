@@ -1,5 +1,5 @@
 // Custom icon static resources
 
-import { WarningFill, BulbOutline, ExceptionOutline, InfoOutline, LinkOutline, ProfileOutline } from '@ant-design/icons-angular/icons';
+import {SelectOutline, WarningFill, BulbOutline, ExceptionOutline, InfoOutline, LinkOutline, ProfileOutline } from '@ant-design/icons-angular/icons';
 
-export const ICONS = [WarningFill, InfoOutline, BulbOutline, ProfileOutline, ExceptionOutline, LinkOutline];
+export const ICONS = [SelectOutline, WarningFill, InfoOutline, BulbOutline, ProfileOutline, ExceptionOutline, LinkOutline];

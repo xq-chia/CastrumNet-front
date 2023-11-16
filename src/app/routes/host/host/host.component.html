@@ -1,0 +1,21 @@
+<page-header></page-header>
+<div sg-container="3">
+    <sg *ngFor="let host of hosts; let idx = index">
+        <nz-card nzTitle="{{host.host}}" [nzExtra]="link" style="height: 185px;">
+            <p>Host Id: {{host.hostId}}</p>
+            <p>IP Address: {{host.ipAddress}}</p>
+        </nz-card>
+        <ng-template #link>
+            <a routerLink="/terminal/terminal/{{host.hostId}}">
+                Connect
+                <span nz-icon nzType="select" nzTheme="outline" style="transform: scaleX(-1);"></span>
+            </a>
+        </ng-template>
+    </sg>
+    <sg>
+        <nz-card style="height: 185px;" class="d-flex align-items-center text-hover justify-content-center text-xl">
+            <div nz-icon nzType="plus" nzTheme="outline" class="d-flex text-xl justify-content-center"></div>
+            <p>New Host</p>
+        </nz-card>
+    </sg>
+</div>
