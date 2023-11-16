@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { _HttpClient } from '@delon/theme';
+import { ModalHelper, _HttpClient } from '@delon/theme';
+import { HostCreateComponent } from '../create/create.component';
 
 @Component({
   selector: 'app-host-host',
@@ -8,11 +9,20 @@ import { _HttpClient } from '@delon/theme';
 export class HostHostComponent implements OnInit {
   hosts: any[] = []
 
-  constructor(private http: _HttpClient) { }
+  constructor(
+    private http: _HttpClient,
+    private modal: ModalHelper
+  ) { }
 
   ngOnInit(): void {
     this.http.get('/host').subscribe(res => {
       this.hosts = res
     })
+  }
+
+  add(): void {
+    this.modal.createStatic(HostCreateComponent).subscribe(res => {
+      this.ngOnInit();
+    });
   }
 }
