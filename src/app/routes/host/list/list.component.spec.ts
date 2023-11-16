@@ -1,19 +1,19 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HostHostComponent } from './host.component';
+import { HostListComponent } from './list.component';
 
-describe('HostHostComponent', () => {
-  let component: HostHostComponent;
-  let fixture: ComponentFixture<HostHostComponent>;
+describe('HostListComponent', () => {
+  let component: HostListComponent;
+  let fixture: ComponentFixture<HostListComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HostHostComponent ]
+      declarations: [ HostListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HostHostComponent);
+    fixture = TestBed.createComponent(HostListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

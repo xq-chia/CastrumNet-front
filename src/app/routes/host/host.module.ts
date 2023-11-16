@@ -1,13 +1,13 @@
 import { NgModule, Type } from '@angular/core';
 import { SharedModule } from '@shared';
 import { HostRoutingModule } from './host-routing.module';
-import { HostHostComponent } from './host/host.component';
 import { SGModule } from '@delon/abc/sg';
-import { HostCreateComponent } from './create/create.component'
+import { HostCreateComponent } from './create/create.component';
+import { HostListComponent } from './list/list.component'
 
 const COMPONENTS: Type<void>[] = [
-  HostHostComponent,
-  HostCreateComponent];
+  HostCreateComponent,
+  HostListComponent];
 
 @NgModule({
   imports: [

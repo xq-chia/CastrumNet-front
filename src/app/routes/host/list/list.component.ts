@@ -3,10 +3,10 @@ import { ModalHelper, _HttpClient } from '@delon/theme';
 import { HostCreateComponent } from '../create/create.component';
 
 @Component({
-  selector: 'app-host-host',
-  templateUrl: './host.component.html',
+  selector: 'app-host-list',
+  templateUrl: './list.component.html',
 })
-export class HostHostComponent implements OnInit {
+export class HostListComponent implements OnInit {
   hosts: any[] = []
 
   constructor(
