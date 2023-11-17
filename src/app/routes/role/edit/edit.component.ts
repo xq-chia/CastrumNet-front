@@ -14,7 +14,7 @@ export class RoleEditComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      roleId: { type: 'number', title: 'Role Id' },
+      roleId: { type: 'number', title: 'Role Id', readOnly: true },
       role: { type: 'string', title: 'Role' },
       description: { type: 'string', title: 'Description' },
       parentIds: { type: 'string', title: 'Role Inheritance' },

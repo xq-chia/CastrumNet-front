@@ -16,7 +16,7 @@ export class UserEditComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      userId: { type: 'number', title: 'User Id' },
+      userId: { type: 'number', title: 'User Id', readOnly: true },
       username: { type: 'string', title: 'Username' },
       password: { type: 'string', title: 'Password' },
       firstName: { type: 'string', title: 'First Name' },
