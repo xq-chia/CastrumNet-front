@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { HostService } from '../../host/host.service';
 import { map } from 'rxjs';
+import { TenantService } from '../../tenant/tenant.service';
 
 @Component({
   selector: 'app-user-create',
@@ -20,24 +21,29 @@ export class UserCreateComponent implements OnInit {
       password: { type: 'string', title: 'Password' },
       firstName: { type: 'string', title: 'First Name' },
       lastName: { type: 'string', title: 'Last Name' },
-      tenantId: { type: 'number', title: 'Tenant' },
+      tenantId: { type: 'string', title: 'Tenant' },
       hostIds: { type: 'string', title: 'Host' }
     },
     required: ['userId', 'username', 'password', 'firstName', 'lastName', 'tenantId'],
   };
   ui: SFUISchema = {
+    $tenantId: {
+      widget: 'select',
+      asyncData: () => this.fetchAllTenants().pipe(map(tenants => tenants.map(tenant => this.convertTenantToSchema(tenant))))
+    },
     $hostIds: {
       widget: 'select',
       mode: 'multiple',
       asyncData: () => this.fetchAllHosts().pipe(map(hosts => hosts.map(host => this.convertHostToSchema(host))))
-    }
+    },
   };
 
   constructor(
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-    private hostService: HostService
+    private hostService: HostService,
+    private tenantService: TenantService
   ) {}
 
   ngOnInit(): void {}
@@ -50,8 +56,15 @@ export class UserCreateComponent implements OnInit {
     return { label: `${host.host} | ${host.ipAddress}`, value: host.hostId };
   }
 
+  fetchAllTenants() {
+    return this.tenantService.fetchAllTenants();
+  }
+
+  convertTenantToSchema(tenant: any) {
+    return { label: `${tenant.role}`, value: tenant.tenantId };
+  }
+
   save(value: any): void {
-    console.log(value)
     this.http.post('/users', value).subscribe(res => {
       this.msgSrv.success('User Created');
       this.modal.close(true);
