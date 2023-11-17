@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
@@ -16,9 +17,11 @@ export class HostCreateComponent implements OnInit {
       host: { type: 'string', title: 'Host' },
       ipAddress: { type: 'string', title: 'IP Address' },
     },
-    required: ['host', 'ipAdress'],
+    required: ['host', 'ipAddress'],
   };
   ui: SFUISchema = {};
+  isUp: boolean = false;
+  @ViewChild('testConnBtn') private testConnBtn!: NzButtonComponent;
 
   constructor(
     private modal: NzModalRef,
@@ -27,6 +30,19 @@ export class HostCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  testConn(value: any) {
+    this.testConnBtn.nzLoading = true;
+    this.http.post('/host/testConn', { ipAddress: value.ipAddress }).subscribe(res => {
+      this.testConnBtn.nzLoading = false;
+      this.isUp = res;
+      if (!res) {
+        this.msgSrv.error(`SSH Connection to ${value.ipAddress} failed. Please try again.`)
+      } else {
+        this.msgSrv.success(`SSH Connection Success`)
+      }
+    })
+  }
 
   save(value: any): void {
     this.http.post('/host', value).subscribe(res => {
