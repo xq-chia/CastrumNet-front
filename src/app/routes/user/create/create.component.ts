@@ -16,7 +16,6 @@ export class UserCreateComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      userId: { type: 'number', title: 'User Id' },
       username: { type: 'string', title: 'Username' },
       password: { type: 'string', title: 'Password' },
       firstName: { type: 'string', title: 'First Name' },

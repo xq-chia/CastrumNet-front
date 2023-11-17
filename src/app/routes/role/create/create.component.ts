@@ -15,7 +15,6 @@ export class RoleCreateComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      roleId: { type: 'number', title: 'Role Id' },
       role: { type: 'string', title: 'Role' },
       description: { type: 'string', title: 'Description' },
       parentIds: { type: 'string', title: 'Role Inheritance' },
