@@ -3,6 +3,9 @@ import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { TenantService } from '../../tenant/tenant.service';
+import { map } from 'rxjs';
+import { HostService } from '../../host/host.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -18,22 +21,34 @@ export class UserEditComponent implements OnInit {
       password: { type: 'string', title: 'Password' },
       firstName: { type: 'string', title: 'First Name' },
       lastName: { type: 'string', title: 'Last Name' },
-      tenantId: { type: 'number', title: 'Tenant' },
-      status: { type: 'boolean', title: 'Status' }
+      tenantId: { type: 'string', title: 'Tenant' },
+      status: { type: 'boolean', title: 'Status' },
+      hostIds: { type: 'string', title: 'Host' }
     },
     required: ['userId', 'username', 'password', 'firstName', 'lastName', 'tenantId']
   };
   ui: SFUISchema = {
+    $tenantId: {
+      widget: 'select',
+      asyncData: () => this.fetchAllTenants().pipe(map(tenants => tenants.map(tenant => this.convertTenantToSchema(tenant))))
+    },
     $status: {
       checkedChildren: 'Active',
       unCheckedChildren: 'Frozen'
-    }
+    },
+    $hostIds: {
+      widget: 'select',
+      mode: 'multiple',
+      asyncData: () => this.fetchAllHosts().pipe(map(hosts => hosts.map(host => this.convertHostToSchema(host))))
+    },
   };
 
   constructor(
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
-    public http: _HttpClient
+    public http: _HttpClient,
+    private tenantService: TenantService,
+    private hostService: HostService
   ) {}
 
   ngOnInit(): void {
@@ -61,4 +76,21 @@ export class UserEditComponent implements OnInit {
   close(): void {
     this.modal.destroy();
   }
+
+  fetchAllTenants() {
+    return this.tenantService.fetchAllTenants();
+  }
+
+  convertTenantToSchema(tenant: any) {
+    return { label: `${tenant.role}`, value: tenant.tenantId };
+  }
+
+  fetchAllHosts() {
+    return this.hostService.fetchAllHosts();
+  }
+
+  convertHostToSchema(host: any) {
+    return { label: `${host.host} | ${host.ipAddress}`, value: host.hostId };
+  }
+
 }
