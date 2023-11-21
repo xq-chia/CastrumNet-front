@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
+import { RoleAssignmentEditComponent } from '../edit/edit.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-role-assignment-list',
@@ -26,19 +28,26 @@ export class RoleAssignmentListComponent implements OnInit {
       buttons: [
         {
           text: 'Assign',
+          icon: 'edit',
+          type: 'modal',
+          modal: {
+            component: RoleAssignmentEditComponent
+          },
+          click: (i, modal) => {
+            if (modal) {
+              this.msgSrv.success('Role Assignment Successful');
+            }
+          }
         }
       ]
     }
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) { }
+  constructor(
+    private http: _HttpClient, 
+    private modal: ModalHelper,
+    private msgSrv: NzMessageService
+  ) { }
 
   ngOnInit(): void { }
-
-  add(): void {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
-  }
-
 }
