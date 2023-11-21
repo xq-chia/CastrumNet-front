@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
+import { HostAssignmentEditComponent } from '../edit/edit.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-host-assignment-list',
@@ -26,12 +28,26 @@ export class HostAssignmentListComponent implements OnInit {
       buttons: [
         {
           text: 'Assign',
+          icon: 'edit',
+          type: 'modal',
+          modal: {
+            component: HostAssignmentEditComponent
+          },
+          click: (i, modal) => {
+            if (modal) {
+              this.msgSrv.success('Host Assignment Successful')
+            }
+          }
         }
       ]
     }
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) { }
+  constructor(
+    private http: _HttpClient, 
+    private modal: ModalHelper,
+    private msgSrv: NzMessageService
+    ) { }
 
   ngOnInit(): void { }
 }
