@@ -23,7 +23,6 @@ export class UserEditComponent implements OnInit {
       lastName: { type: 'string', title: 'Last Name' },
       tenantId: { type: 'string', title: 'Tenant' },
       status: { type: 'boolean', title: 'Status' },
-      hostIds: { type: 'string', title: 'Host' }
     },
     required: ['userId', 'username', 'password', 'firstName', 'lastName', 'tenantId']
   };
@@ -35,11 +34,6 @@ export class UserEditComponent implements OnInit {
     $status: {
       checkedChildren: 'Active',
       unCheckedChildren: 'Frozen'
-    },
-    $hostIds: {
-      widget: 'select',
-      mode: 'multiple',
-      asyncData: () => this.fetchAllHosts().pipe(map(hosts => hosts.map(host => this.convertHostToSchema(host))))
     },
   };
 
@@ -61,7 +55,6 @@ export class UserEditComponent implements OnInit {
         res.password = res.user.password;
         res.status = res.user.status;
         res.tenantId = res.tenant.tenantId;
-        res.hostIds = res.userHosts.map((userHost: any) => userHost.hostId);
 
         this.i = res;
       });
@@ -84,13 +77,5 @@ export class UserEditComponent implements OnInit {
 
   convertTenantToSchema(tenant: any) {
     return { label: `${tenant.role}`, value: tenant.tenantId };
-  }
-
-  fetchAllHosts() {
-    return this.hostService.fetchAllHosts();
-  }
-
-  convertHostToSchema(host: any) {
-    return { label: `${host.host} | ${host.ipAddress}`, value: host.hostId };
   }
 }
