@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
@@ -48,7 +48,7 @@ export class UserEditComponent implements OnInit {
     private msgSrv: NzMessageService,
     public http: _HttpClient,
     private tenantService: TenantService,
-    private hostService: HostService
+    private hostService: HostService,
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +61,7 @@ export class UserEditComponent implements OnInit {
         res.password = res.user.password;
         res.status = res.user.status;
         res.tenantId = res.tenant.tenantId;
+        res.hostIds = res.userHosts.map((userHost: any) => userHost.hostId);
 
         this.i = res;
       });
@@ -92,5 +93,4 @@ export class UserEditComponent implements OnInit {
   convertHostToSchema(host: any) {
     return { label: `${host.host} | ${host.ipAddress}`, value: host.hostId };
   }
-
 }
