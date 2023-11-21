@@ -1,0 +1,37 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { STColumn, STComponent } from '@delon/abc/st';
+import { SFSchema } from '@delon/form';
+import { ModalHelper, _HttpClient } from '@delon/theme';
+
+@Component({
+  selector: 'app-host-assignment-list',
+  templateUrl: './list.component.html',
+})
+export class HostAssignmentListComponent implements OnInit {
+  url = `/hostAssignment`;
+  searchSchema: SFSchema = {
+    properties: {
+      no: {
+        type: 'string',
+        title: '编号'
+      }
+    }
+  };
+  @ViewChild('st') private readonly st!: STComponent;
+  columns: STColumn[] = [
+    { title: 'Id', index: 'userId' },
+    { title: 'username', index: 'username' },
+    {
+      title: '',
+      buttons: [
+        {
+          text: 'Assign',
+        }
+      ]
+    }
+  ];
+
+  constructor(private http: _HttpClient, private modal: ModalHelper) { }
+
+  ngOnInit(): void { }
+}
