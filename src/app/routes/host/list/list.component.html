@@ -6,9 +6,13 @@
             <p>IP Address: {{host.ipAddress}}</p>
         </nz-card>
         <ng-template #link>
-            <a routerLink="/terminal/terminal/{{host.hostId}}">
+            <!-- <a routerLink="/terminal/terminal/{{host.hostId}}">
                 Connect
                 <span nz-icon nzType="select" nzTheme="outline" style="transform: scaleX(-1);"></span>
+            </a> -->
+            <a (click)="edit()">
+                <span nz-icon nzType="edit" nzTheme="outline"></span>
+                Edit
             </a>
         </ng-template>
     </sg>

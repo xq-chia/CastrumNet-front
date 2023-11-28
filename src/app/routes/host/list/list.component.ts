@@ -25,4 +25,8 @@ export class HostListComponent implements OnInit {
       this.ngOnInit();
     });
   }
+  
+  edit(): void {
+
+  }
 }
