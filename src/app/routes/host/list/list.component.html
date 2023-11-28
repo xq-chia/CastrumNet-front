@@ -16,11 +16,15 @@
             <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
                     <li nz-menu-item class="text-primary" (click)="edit(host.hostId)">
-                        <span nz-icon nzType="edit" nzTheme="outline"></span>
+                        <span nz-icon nzType="edit" nzTheme="outline" class="mr-sm"></span>
                         Edit
                     </li>
-                    <li nz-menu-item class="text-error" (click)="delete(host.hostId)">
-                        <span nz-icon nzType="delete" ></span>
+                    <li nz-menu-item class="text-error" 
+                        nz-popconfirm 
+                        nzPopconfirmTitle="Are you sure you want to delete the host?"
+                        (nzOnConfirm)="delete(host.hostId)"
+                    >
+                        <span nz-icon nzType="delete" nzTheme="outline" class="mr-sm"></span>
                         Delete
                     </li>
                 </ul>

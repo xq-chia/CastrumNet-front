@@ -38,6 +38,9 @@ export class HostListComponent implements OnInit {
   }
 
   delete(hostId: number): void {
-
+    this.http.delete(`/host/${hostId}`).subscribe(res => {
+      this.msgSrv.success('Host Deleted');
+      this.ngOnInit();
+    })
   }
 }
