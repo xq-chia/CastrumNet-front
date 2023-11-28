@@ -15,7 +15,7 @@ const COMPONENTS: Type<void>[] = [
   imports: [
     SharedModule,
     SGModule,
-    HostRoutingModule
+    HostRoutingModule,
   ],
   declarations: COMPONENTS,
 })

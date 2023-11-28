@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
@@ -19,6 +20,8 @@ export class HostEditComponent implements OnInit {
     required: ['host', 'ipAddress'],
   };
   ui: SFUISchema = { };
+  isUp: boolean = false;
+  @ViewChild('testConnBtn') private testConnBtn!: NzButtonComponent;
 
   constructor(
     private modal: NzModalRef,
@@ -32,11 +35,23 @@ export class HostEditComponent implements OnInit {
     });
   }
 
-  save(value: any): void {
-    this.http.post(`/user/${this.record.id}`, value).subscribe(res => {
-      this.msgSrv.success('保存成功');
+  edit(value: any): void {
+    this.http.patch(`/host/${this.record.hostId}`, value).subscribe(res => {
       this.modal.close(true);
     });
+  }
+
+  testConn(value: any) {
+    this.testConnBtn.nzLoading = true;
+    this.http.post('/host/testConn', { ipAddress: value.ipAddress }).subscribe(res => {
+      this.testConnBtn.nzLoading = false;
+      this.isUp = res;
+      if (!res) {
+        this.msgSrv.error(`SSH Connection to ${value.ipAddress} failed. Please try again.`)
+      } else {
+        this.msgSrv.success(`SSH Connection Success`)
+      }
+    })
   }
 
   close(): void {

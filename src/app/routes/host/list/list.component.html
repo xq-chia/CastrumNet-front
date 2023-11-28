@@ -1,19 +1,30 @@
 <page-header></page-header>
 <div sg-container="3">
     <sg *ngFor="let host of hosts; let idx = index">
-        <nz-card nzTitle="{{host.host}}" [nzExtra]="link" style="height: 185px;">
+        <nz-card nzTitle="{{host.host}}" [nzExtra]="actions" style="height: 185px;">
             <p>Host Id: {{host.hostId}}</p>
             <p>IP Address: {{host.ipAddress}}</p>
         </nz-card>
-        <ng-template #link>
+        <ng-template #actions>
             <!-- <a routerLink="/terminal/terminal/{{host.hostId}}">
                 Connect
                 <span nz-icon nzType="select" nzTheme="outline" style="transform: scaleX(-1);"></span>
             </a> -->
-            <a (click)="edit(host.hostId)">
-                <span nz-icon nzType="edit" nzTheme="outline"></span>
-                Edit
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="ellipsis" nzTheme="outline"></span>
             </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item class="text-primary" (click)="edit(host.hostId)">
+                        <span nz-icon nzType="edit" nzTheme="outline"></span>
+                        Edit
+                    </li>
+                    <li nz-menu-item class="text-error" (click)="delete(host.hostId)">
+                        <span nz-icon nzType="delete" ></span>
+                        Delete
+                    </li>
+                </ul>
+            </nz-dropdown-menu>
         </ng-template>
     </sg>
     <sg>
