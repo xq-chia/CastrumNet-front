@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { HostCreateComponent } from '../create/create.component';
+import { HostEditComponent } from '../edit/edit.component';
 
 @Component({
   selector: 'app-host-list',
@@ -26,7 +27,9 @@ export class HostListComponent implements OnInit {
     });
   }
   
-  edit(): void {
-
+  edit(hostId: number): void {
+    this.modal.createStatic( HostEditComponent, { record: { hostId: hostId } }).subscribe(res => {
+      this.ngOnInit();
+    })
   }
 }
