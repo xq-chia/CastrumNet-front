@@ -32,8 +32,8 @@ const routes: Routes = [
      { path: 'role', loadChildren: () => import('./role/role.module').then((m) => m.RoleModule) },
      { path: 'host', loadChildren: () => import('./host/host.module').then((m) => m.HostModule) },
      { path: 'roleAssignment', loadChildren: () => import('./role-assignment/role-assignment.module').then((m) => m.RoleAssignmentModule) },
-     { path: 'hostAssignment', loadChildren: () => import('./host-assignment/host-assignment.module').then((m) => m.HostAssignmentModule) }
-    ]
+     { path: 'hostAssignment', loadChildren: () => import('./host-assignment/host-assignment.module').then((m) => m.HostAssignmentModule) },
+     { path: 'workstation', loadChildren: () => import('./workstation/workstation.module').then((m) => m.WorkstationModule) }]
   },
   // 空白布局
   // {

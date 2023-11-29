@@ -1,0 +1,15 @@
+<page-header></page-header>
+<div sg-container="3">
+    <sg *ngFor="let userHost of userHosts">
+        <nz-card nzTitle="{{userHost.host}}" [nzExtra]="link" style="height: 185px;">
+            <p>Host Id: {{userHost.hostId}}</p>
+            <p>IP Address: {{userHost.ipAddress}}</p>
+        </nz-card>
+        <ng-template #link>
+            <a routerLink="/terminal/terminal/{{userHost.hostId}}">
+                Connect
+                <span nz-icon nzType="select" nzTheme="outline" style="transform: scaleX(-1);"></span>
+            </a>
+        </ng-template>
+    </sg>
+</div>
