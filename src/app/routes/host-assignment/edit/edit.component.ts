@@ -22,7 +22,10 @@ export class HostAssignmentEditComponent implements OnInit {
     $hostIds: {
       widget: 'select',
       mode: 'multiple',
-      asyncData: () => this.fetchAllHosts().pipe(map(hosts => hosts.map(host => ({ label: `${host.host} | ${host.ipAddress}`, value: host.hostId }))))
+      asyncData: () => this.fetchAllHosts().pipe(
+        map(res => res.data),
+        map((hosts: any[]) => hosts.map((host: any) => ({ label: `${host.host} | ${host.ipAddress}`, value: host.hostId })))
+      )
     }
   };
 
