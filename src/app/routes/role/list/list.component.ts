@@ -13,6 +13,11 @@ import { RoleDetailsComponent } from '../details/details.component';
 })
 export class RoleListComponent implements OnInit {
   url = `/role`;
+  res: STRes ={
+    process: (_, res) => {
+      return res.data
+    }
+  }
   searchSchema: SFSchema = {
     properties: {
       no: {

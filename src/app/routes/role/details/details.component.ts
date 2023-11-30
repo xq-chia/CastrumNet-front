@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { STColumn, STComponent, STRes } from '@delon/abc/st';
+import { STColumn, STComponent, STData, STRes } from '@delon/abc/st';
 import { _HttpClient } from '@delon/theme';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -11,18 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class RoleDetailsComponent implements OnInit {
   record: any = {};
   i: any;
-  url: string = '';
-  res: STRes = {
-    process: (_, data) => {
-      let ret: any[] = [];
-
-      for (const role of data.parentRoles) {
-        ret.push({ roleId: role.roleId, role: role.role, description: role.description })
-      }
-
-      return ret;
-    }
-  }
+  tblData: STData[] = [];
   @ViewChild('parentTbl') private readonly parentTbl!: STComponent;
   parentCol: STColumn[] = [
     { title: 'Role Id', index: 'roleId' },
@@ -38,8 +27,12 @@ export class RoleDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get(`/role/${this.record.roleId}`).subscribe(res => {
-      this.i = res
-      this.url = `/role/${this.record.roleId}`
+
+      this.i = res.data
+      
+      for (const role of res.data.parentRoles) {
+        this.tblData.push({ roleId: role.roleId, role: role.role, description: role.description });
+      }
     });
   }
 

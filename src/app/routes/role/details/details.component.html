@@ -7,7 +7,7 @@
   <sv label="Description">{{ i.description }}</sv>
   <sv-title>Role Inheritance</sv-title>
   <sv hideLabel col="1">
-    <st #parentTbl [data]="url" [columns]="parentCol" [res] = "res"></st>
+    <st [data]="tblData" #parentTbl [columns]="parentCol"></st>
   </sv>
 </div>
 <div class="modal-footer"></div>

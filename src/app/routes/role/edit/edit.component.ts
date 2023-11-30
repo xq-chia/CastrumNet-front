@@ -37,7 +37,10 @@ export class RoleEditComponent implements OnInit {
     $parentIds: {
       widget: 'select',
       mode: 'multiple',
-      asyncData: () => this.fetchAllRoles().pipe(map(roles => roles.map(role => ({ label: `${role.role} | ${role.description}`, value: role.roleId }))))
+      asyncData: () => this.fetchAllRoles().pipe(
+        map((res: any) => res.data),
+        map(roles => roles.map((role: any) => ({ label: `${role.role} | ${role.description}`, value: role.roleId })))
+      )
     },
     $permissions: {
       grid: { arraySpan: 24 },
@@ -59,8 +62,8 @@ export class RoleEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.record.roleId > 0) {
       this.http.get(`/role/${this.record.roleId}`).subscribe(res => {
-        res.parentIds = res.parentRoles.map((role: any) => role.roleId),
-        this.i = res;
+        res.data.parentIds = res.data.parentRoles.map((role: any) => role.roleId),
+        this.i = res.data;
       });
     }
   }

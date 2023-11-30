@@ -9,6 +9,6 @@ export class HostService {
   constructor(private http: _HttpClient) { }
 
   fetchAllHosts() {
-    return this.http.get<any>('/host');
+    return this.http.get('/host');
   }
 }
