@@ -22,7 +22,7 @@ export class HostAssignmentEditComponent implements OnInit {
     $hostIds: {
       widget: 'select',
       mode: 'multiple',
-      asyncData: () => this.fetchAllHosts().pipe(map(hosts => hosts.map(host => this.convertHostToSchema(host))))
+      asyncData: () => this.fetchAllHosts().pipe(map(hosts => hosts.map(host => ({ label: `${host.host} | ${host.ipAddress}`, value: host.hostId }))))
     }
   };
 
@@ -55,9 +55,5 @@ export class HostAssignmentEditComponent implements OnInit {
 
   fetchAllHosts() {
     return this.hostService.fetchAllHosts();
-  }
-
-  convertHostToSchema(host: any) {
-    return { label: `${host.host} | ${host.ipAddress}`, value: host.hostId };
   }
 }

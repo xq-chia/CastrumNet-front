@@ -29,7 +29,7 @@ export class UserEditComponent implements OnInit {
   ui: SFUISchema = {
     $tenantId: {
       widget: 'select',
-      asyncData: () => this.fetchAllTenants().pipe(map(tenants => tenants.map(tenant => this.convertTenantToSchema(tenant))))
+      asyncData: () => this.fetchAllTenants().pipe(map(tenants => tenants.map(tenant => ({ label: `${tenant.role}`, value: tenant.tenantId }))))
     },
     $status: {
       checkedChildren: 'Active',
@@ -73,9 +73,5 @@ export class UserEditComponent implements OnInit {
 
   fetchAllTenants() {
     return this.tenantService.fetchAllTenants();
-  }
-
-  convertTenantToSchema(tenant: any) {
-    return { label: `${tenant.role}`, value: tenant.tenantId };
   }
 }

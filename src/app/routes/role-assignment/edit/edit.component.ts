@@ -38,7 +38,7 @@ export class RoleAssignmentEditComponent implements OnInit {
         $roleIds: {
           widget: 'select',
           mode: 'multiple',
-          asyncData: () => this.fetchAllRoles().pipe(map(roles => roles.map(role => this.convertRoleToSchema(role))))
+          asyncData: () => this.fetchAllRoles().pipe(map(roles => roles.map(role => ({ label: `${role.role} | ${role.description}`, value: role.roleId }))))
         }
       }
     }
@@ -73,9 +73,5 @@ export class RoleAssignmentEditComponent implements OnInit {
 
   fetchAllRoles() {
     return this.roleService.fetchAllRoles();
-  }
-
-  convertRoleToSchema(role: any) {
-    return { label: `${role.role} | ${role.description}`, value: role.roleId };
   }
 }

@@ -28,12 +28,12 @@ export class UserCreateComponent implements OnInit {
   ui: SFUISchema = {
     $tenantId: {
       widget: 'select',
-      asyncData: () => this.fetchAllTenants().pipe(map(tenants => tenants.map(tenant => this.convertTenantToSchema(tenant))))
+      asyncData: () => this.fetchAllTenants().pipe(map(tenants => tenants.map(tenant => ({ label: `${tenant.role}`, value: tenant.tenantId }))))
     },
     $hostIds: {
       widget: 'select',
       mode: 'multiple',
-      asyncData: () => this.fetchAllHosts().pipe(map(hosts => hosts.map(host => this.convertHostToSchema(host))))
+      asyncData: () => this.fetchAllHosts().pipe(map(hosts => hosts.map(host => ({ label: `${host.host} | ${host.ipAddress}`, value: host.hostId }))))
     },
   };
 
@@ -51,16 +51,8 @@ export class UserCreateComponent implements OnInit {
     return this.hostService.fetchAllHosts();
   }
 
-  convertHostToSchema(host: any) {
-    return { label: `${host.host} | ${host.ipAddress}`, value: host.hostId };
-  }
-
   fetchAllTenants() {
     return this.tenantService.fetchAllTenants();
-  }
-
-  convertTenantToSchema(tenant: any) {
-    return { label: `${tenant.role}`, value: tenant.tenantId };
   }
 
   save(value: any): void {
