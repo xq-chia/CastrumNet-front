@@ -51,13 +51,13 @@ export class UserEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.record.userId > 0) {
       this.http.get(`/users/${this.record.userId}`).subscribe(res => {
-        res.userId = res.user.userId;
-        res.firstName = res.user.firstName;
-        res.lastName = res.user.lastName;
-        res.username = res.user.username;
-        res.password = res.user.password;
-        res.status = res.user.status;
-        res.tenantId = res.tenant.tenantId;
+        res.userId = res.data.user.userId;
+        res.firstName = res.data.user.firstName;
+        res.lastName = res.data.user.lastName;
+        res.username = res.data.user.username;
+        res.password = res.data.user.password;
+        res.status = res.data.user.status;
+        res.tenantId = res.data.tenant.tenantId;
 
         this.i = res;
       });

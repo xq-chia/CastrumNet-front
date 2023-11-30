@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { STColumn, STComponent } from '@delon/abc/st';
+import { STColumn, STComponent, STRes } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { UserCreateComponent } from '../create/create.component';
@@ -14,6 +14,11 @@ import { UserEditComponent } from '../edit/edit.component';
 })
 export class UserListComponent implements OnInit {
   url = `/users`;
+  res: STRes = {
+    process: (_, res) => {
+      return res.data;
+    }
+  }
   searchSchema: SFSchema = {
     properties: {
       no: {

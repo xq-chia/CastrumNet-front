@@ -18,10 +18,10 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get(`/users/${this.record.userId}`).subscribe(res => {
-      res.firstName = res.user.firstName;
-      res.lastName = res.user.lastName;
-      res.username = res.user.username;
-      res.tenant = res.tenant.role;
+      res.firstName = res.data.user.firstName;
+      res.lastName = res.data.user.lastName;
+      res.username = res.data.user.username;
+      res.tenant = res.data.tenant.role;
 
       this.i = res
     });
