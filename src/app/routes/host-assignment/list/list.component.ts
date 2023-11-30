@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { STColumn, STComponent } from '@delon/abc/st';
+import { STColumn, STComponent, STRes } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { HostAssignmentEditComponent } from '../edit/edit.component';
@@ -11,8 +11,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class HostAssignmentListComponent implements OnInit {
   url = `/hostAssignment`;
-  process = (formatted: any, res: any) => {
-    return res.data
+  res: STRes = {
+    process: (_, res) => {
+      return res.data
+    }
   }
   searchSchema: SFSchema = {
     properties: {
