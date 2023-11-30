@@ -39,9 +39,9 @@ export class HostAssignmentEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.record.userId > 0) {
       this.http.get(`/hostAssignment/${this.record.userId}`).subscribe(res => {
-        res.hostIds = res.userHosts.map((userHost: any) => userHost.hostId);
+        res.data.hostIds = res.data.userHosts.map((userHost: any) => userHost.hostId);
 
-        this.i = res;
+        this.i = res.data;
       });
     }
   }

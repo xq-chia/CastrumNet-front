@@ -11,6 +11,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class HostAssignmentListComponent implements OnInit {
   url = `/hostAssignment`;
+  process = (formatted: any, res: any) => {
+    return res.data
+  }
   searchSchema: SFSchema = {
     properties: {
       no: {
