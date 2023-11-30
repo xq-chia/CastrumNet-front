@@ -122,7 +122,7 @@ export class UserLoginComponent implements OnDestroy {
         })
       )
       .subscribe(res => {
-        if (res.msg !== 'ok') {
+        if ('error' in res) {
           this.error = res.msg;
           this.cdr.detectChanges();
           return;
@@ -132,7 +132,7 @@ export class UserLoginComponent implements OnDestroy {
         // 设置用户Token信息
         // TODO: Mock expired value
         // res.user.expired = new Date().getTime() + 1000 * 60 * 5;
-        this.tokenService.set(res.user);
+        this.tokenService.set(res.data.user);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
         this.startupSrv.load().subscribe(() => {
           let url = this.tokenService.referrer!.url || '/';
