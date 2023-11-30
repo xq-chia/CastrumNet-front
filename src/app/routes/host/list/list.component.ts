@@ -19,7 +19,7 @@ export class HostListComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get('/host').subscribe(res => {
-      this.hosts = res
+      this.hosts = res.data
     })
   }
 

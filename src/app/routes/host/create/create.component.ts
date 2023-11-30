@@ -35,7 +35,7 @@ export class HostCreateComponent implements OnInit {
     this.testConnBtn.nzLoading = true;
     this.http.post('/host/testConn', { ipAddress: value.ipAddress }).subscribe(res => {
       this.testConnBtn.nzLoading = false;
-      this.isUp = res;
+      this.isUp = res.data;
       if (!res) {
         this.msgSrv.error(`SSH Connection to ${value.ipAddress} failed. Please try again.`)
       } else {

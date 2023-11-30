@@ -31,7 +31,7 @@ export class HostEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get(`/host/${this.record.hostId}`). subscribe(res => {
-      this.i = res;
+      this.i = res.data;
     });
   }
 
@@ -44,9 +44,10 @@ export class HostEditComponent implements OnInit {
   testConn(value: any) {
     this.testConnBtn.nzLoading = true;
     this.http.post('/host/testConn', { ipAddress: value.ipAddress }).subscribe(res => {
+      console.log(res)
       this.testConnBtn.nzLoading = false;
-      this.isUp = res;
-      if (!res) {
+      this.isUp = res.data.isUp;
+      if (!res.data.isUp) {
         this.msgSrv.error(`SSH Connection to ${value.ipAddress} failed. Please try again.`)
       } else {
         this.msgSrv.success(`SSH Connection Success`)
