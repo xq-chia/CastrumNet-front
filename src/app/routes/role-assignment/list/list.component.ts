@@ -10,7 +10,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   templateUrl: './list.component.html',
 })
 export class RoleAssignmentListComponent implements OnInit {
-  url = `/roleAssignment`;
+  url = `/users`;
   res: STRes ={
     process: (_, res) => {
       return res.data;
