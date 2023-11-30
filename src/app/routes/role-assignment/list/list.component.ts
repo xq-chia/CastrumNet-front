@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { STColumn, STComponent } from '@delon/abc/st';
+import { STColumn, STComponent, STRes } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { RoleAssignmentEditComponent } from '../edit/edit.component';
@@ -11,6 +11,11 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class RoleAssignmentListComponent implements OnInit {
   url = `/roleAssignment`;
+  res: STRes ={
+    process: (_, res) => {
+      return res.data;
+    }
+  }
   searchSchema: SFSchema = {
     properties: {
       no: {
