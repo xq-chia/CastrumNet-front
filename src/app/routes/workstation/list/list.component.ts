@@ -17,16 +17,10 @@ export class WorkstationListComponent implements OnInit {
     @Inject(DA_SERVICE_TOKEN) private tokenSrv: ITokenService,
   ) { }
   ngOnInit(): void {
-    this.http.get(`/userHost/${this.userId}`).subscribe((userHosts: any[]) => {
-      this.userHosts = userHosts;
-  
-      // Create an array of observables for host requests
-      const hostDetails$ = this.userHosts.map(userHost => this.http.get(`/host/${userHost.hostId}`));
-  
-      // Use forkJoin to make parallel requests
-      forkJoin(hostDetails$).subscribe(hostDetails => {
-        this.userHosts = hostDetails;
-      });
+    this.http.get(`/userHost/${this.userId}`).subscribe(res => {
+      for (const item of res.data) {
+        this.userHosts.push(item.host)
+      }
     });
   }
 }
