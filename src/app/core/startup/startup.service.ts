@@ -38,6 +38,7 @@ export class StartupService {
           setTimeout(() => this.router.navigateByUrl(`/exception/500`));
           return of({});
         }),
+        map((res: NzSafeAny) => res.data ?? {}),
         map((res: NzSafeAny) => {
           // Application information: including site name, description, year
           this.settingService.setApp(res.app);
