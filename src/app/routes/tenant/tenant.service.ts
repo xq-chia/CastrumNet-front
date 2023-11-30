@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class TenantService {
   constructor(private http: _HttpClient) { }
 
-  fetchAllTenants(): Observable<any[]> {
-    return this.http.get<any[]>('/tenants');
+  fetchAllTenants() {
+    return this.http.get('/tenants');
   }
 }

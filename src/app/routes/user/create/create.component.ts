@@ -28,7 +28,10 @@ export class UserCreateComponent implements OnInit {
   ui: SFUISchema = {
     $tenantId: {
       widget: 'select',
-      asyncData: () => this.fetchAllTenants().pipe(map(tenants => tenants.map(tenant => ({ label: `${tenant.role}`, value: tenant.tenantId }))))
+      asyncData: () => this.fetchAllTenants().pipe(
+        map((res: any) => res.data),
+        map(tenants => tenants.map((tenant: any) => ({ label: `${tenant.role}`, value: tenant.tenantId })))
+      )
     },
     $hostIds: {
       widget: 'select',

@@ -9,7 +9,7 @@ export class RoleService {
 
   constructor(private http: _HttpClient) { }
 
-  fetchAllRoles(): Observable<any[]> {
+  fetchAllRoles() {
     return this.http.get('/role');
   }
 }
