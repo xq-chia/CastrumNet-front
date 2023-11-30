@@ -56,10 +56,11 @@ export class RoleAssignmentEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.record.userId > 0) {
-      this.http.get(`/users/${this.record.userId}`).subscribe(res => {
-        this.schema.properties!['roleAssignments'].maxItems = res.roleAssignments.length;
+      this.http.get(`/roleAssignment/${this.record.userId}`).subscribe(res => {
+        this.schema.properties!['roleAssignments'].maxItems = res.data.roleAssignments.length;
 
-        this.i = res;
+        this.i = res.data;
+        console.log(res.data)
       });
     }
   }
