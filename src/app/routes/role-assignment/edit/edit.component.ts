@@ -60,7 +60,6 @@ export class RoleAssignmentEditComponent implements OnInit {
         this.schema.properties!['roleAssignments'].maxItems = res.data.roleAssignments.length;
 
         this.i = res.data;
-        console.log(res.data)
       });
     }
   }
