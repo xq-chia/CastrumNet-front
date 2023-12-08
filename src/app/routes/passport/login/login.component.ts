@@ -7,8 +7,9 @@ import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN, ITokenService, SocialOpenType, SocialService } from '@delon/auth';
 import { SettingsService, _HttpClient } from '@delon/theme';
 import { environment } from '@env/environment';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
-import { finalize } from 'rxjs';
+import { catchError, finalize, of } from 'rxjs';
 
 @Component({
   selector: 'passport-login',
@@ -29,7 +30,8 @@ export class UserLoginComponent implements OnDestroy {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private msgSrv: NzMessageService
   ) {}
 
   // #region fields
@@ -119,14 +121,18 @@ export class UserLoginComponent implements OnDestroy {
         finalize(() => {
           this.loading = false;
           this.cdr.detectChanges();
+        }),
+        catchError(err => {
+          this.error = err.error.msg;
+          this.cdr.detectChanges();
+          return of(null)
         })
       )
       .subscribe(res => {
-        if ('error' in res) {
-          this.error = res.msg;
-          this.cdr.detectChanges();
+        if (res == null) {
           return;
         }
+        this.msgSrv.success(res.data.msg);
         // 清空路由复用信息
         this.reuseTabService.clear();
         // 设置用户Token信息
