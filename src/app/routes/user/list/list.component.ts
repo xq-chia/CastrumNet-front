@@ -16,6 +16,12 @@ export class UserListComponent implements OnInit {
   url = `/users`;
   res: STRes = {
     process: (_, res) => {
+      for (const user of res.data) {
+        if (!user.status) {
+          user.className = 'text-red-light font-italic'
+        }
+      }
+      console.log(res.data)
       return res.data;
     }
   }
@@ -82,18 +88,37 @@ export class UserListComponent implements OnInit {
           text: 'More ',
           children: [
             {
-              text: 'Freeze',
+              text: 'Deactivate',
               icon: 'lock',
               type: 'del',
+              iif: record => record.status,
               pop: {
-                title: 'Are you sure you want to freeze the user?',
+                title: 'Are you sure you want to deactivate the user?',
                 okType: 'danger',
-                okText: 'Freeze',
+                okText: 'Deactivate',
                 icon: 'warning'
               },
               click: record => {
-                this.http.patch(`/users/freeze/${record.userId}`).subscribe(res => {
-                  this.msgSrv.success(`${record.username} has been frozen`);
+                this.http.patch(`/users/status/${record.userId}`).subscribe(res => {
+                  this.msgSrv.success(res.data.msg);
+                  this.st.reload();
+                });
+              }
+            },
+            {
+              text: 'Activate',
+              icon: 'unlock',
+              type: 'del',
+              iif: record => !record.status,
+              pop: {
+                title: 'Are you sure you want to activate the user?',
+                okType: 'danger',
+                okText: 'Activate',
+                icon: 'warning'
+              },
+              click: record => {
+                this.http.patch(`/users/status/${record.userId}`).subscribe(res => {
+                  this.msgSrv.success(res.data.msg);
                   this.st.reload();
                 });
               }
