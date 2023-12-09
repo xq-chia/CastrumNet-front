@@ -21,7 +21,6 @@ export class UserListComponent implements OnInit {
           user.className = 'text-red-light font-italic'
         }
       }
-      console.log(res.data)
       return res.data;
     }
   }
