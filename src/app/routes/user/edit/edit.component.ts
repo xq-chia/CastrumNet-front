@@ -38,6 +38,9 @@ export class UserEditComponent implements OnInit {
       checkedChildren: 'Active',
       unCheckedChildren: 'Frozen'
     },
+    $password: {
+      type: 'password'
+    }
   };
 
   constructor(

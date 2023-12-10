@@ -41,6 +41,9 @@ export class UserCreateComponent implements OnInit {
         map((hosts: any[]) => hosts.map((host: any) => ({ label: `${host.host} | ${host.ipAddress}`, value: host.hostId })))
       )
     },
+    $password: {
+      type: 'password'
+    }
   };
 
   constructor(
