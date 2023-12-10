@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgTerminal } from 'ng-terminal';
 import { TerminalService } from './terminal.service';
 import { BehaviorSubject, Subject, elementAt, first, firstValueFrom, take } from 'rxjs';
@@ -10,12 +10,12 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-terminal-terminal',
   templateUrl: './terminal.component.html'
 })
-export class TerminalTerminalComponent implements OnInit, AfterViewInit {
+export class TerminalTerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('term', { static: false }) term!: NgTerminal;
   buffer$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   socket: Socket = this.socketService.io;
   messageOutput$ = new Subject<string>();
-  hostId!: number;
+  userHostId!: number;
 
   constructor(
     private socketService: TerminalService,
@@ -25,10 +25,10 @@ export class TerminalTerminalComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.hostId = params['hostId']
+      this.userHostId = params['userHostId']
     });
 
-    this.socketService.init(this.hostId);
+    this.socketService.init(this.userHostId);
   }
 
   ngAfterViewInit(): void {
@@ -61,5 +61,9 @@ export class TerminalTerminalComponent implements OnInit, AfterViewInit {
     this.socket.on('error', msg => {
       this.notificationService.error('Execution Failed', msg)
     })
+  }
+
+  ngOnDestroy(): void {
+    this.socket.off('error')
   }
 }

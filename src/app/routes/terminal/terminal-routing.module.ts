@@ -4,7 +4,7 @@ import { TerminalTerminalComponent } from './terminal/terminal.component';
 
 const routes: Routes = [
 
-  { path: 'terminal/:hostId', component: TerminalTerminalComponent }];
+  { path: 'terminal/:userHostId', component: TerminalTerminalComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

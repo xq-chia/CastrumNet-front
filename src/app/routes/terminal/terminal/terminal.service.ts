@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TokenService } from '@delon/auth';
 import { io, Socket } from 'socket.io-client';
 
 @Injectable({
@@ -7,8 +8,8 @@ import { io, Socket } from 'socket.io-client';
 export class TerminalService {
   io: Socket = io('ws://localhost:3000');
 
-  async init(hostId: number) {
-    this.io.emit('init', hostId)
+  async init(userHostId: number) {
+    this.io.emit('init', userHostId)
   }
 
   async execute(data: string) {
