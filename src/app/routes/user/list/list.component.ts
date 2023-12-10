@@ -7,6 +7,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UserDetailsComponent } from '../details/details.component';
 import { UserEditComponent } from '../edit/edit.component';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -98,7 +99,15 @@ export class UserListComponent implements OnInit {
                 icon: 'warning'
               },
               click: record => {
-                this.http.patch(`/users/status/${record.userId}`).subscribe(res => {
+                this.http.patch(`/users/status/${record.userId}`).pipe(
+                  catchError(err => {
+                    this.msgSrv.error(err.eror.msg);
+                    return of(null);
+                  })
+                ).subscribe(res => {
+                  if (res == null) {
+                    return ;
+                  }
                   this.msgSrv.success(res.data.msg);
                   this.st.reload();
                 });
@@ -116,7 +125,15 @@ export class UserListComponent implements OnInit {
                 icon: 'warning'
               },
               click: record => {
-                this.http.patch(`/users/status/${record.userId}`).subscribe(res => {
+                this.http.patch(`/users/status/${record.userId}`).pipe(
+                  catchError(err => {
+                    this.msgSrv.error(err.eror.msg);
+                    return of(null);
+                  })
+                ).subscribe(res => {
+                  if (res == null) {
+                    return ;
+                  }
                   this.msgSrv.success(res.data.msg);
                   this.st.reload();
                 });
