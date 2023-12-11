@@ -4,7 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { TenantService } from '../../tenant/tenant.service';
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { HostService } from '../../host/host.service';
 
 @Component({
@@ -68,8 +68,16 @@ export class UserEditComponent implements OnInit {
   }
 
   edit(value: any): void {
-    this.http.patch(`/users/${this.record.userId}`, value).subscribe(res => {
-      this.modal.close(true);
+    this.http.patch(`/users/${this.record.userId}`, value).pipe(
+      catchError(err => {
+        this.modal.close(err);
+        return of(null);
+      })
+    ).subscribe(res => {
+      if (res == null) {
+        return ;
+      }
+      this.modal.close(res);
     });
   }
 

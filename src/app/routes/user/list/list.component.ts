@@ -17,12 +17,12 @@ export class UserListComponent implements OnInit {
   url = `/users`;
   res: STRes = {
     process: (_, res) => {
-      for (const user of res.data) {
+      for (const user of res.data.users) {
         if (!user.status) {
           user.className = 'text-red-light font-italic'
         }
       }
-      return res.data;
+      return res.data.users;
     }
   }
   searchSchema: SFSchema = {
@@ -59,9 +59,11 @@ export class UserListComponent implements OnInit {
           modal: {
             component: UserEditComponent
           },
-          click: (i, modal) => {
-            if (modal) {
-              this.msgSrv.success('User Edited');
+          click: (i, res) => {
+            if (res.error) {
+              this.msgSrv.error(res.error.msg)
+            } else {
+              this.msgSrv.success(res.data.msg);
             }
             this.st.reload();
           }
@@ -78,9 +80,17 @@ export class UserListComponent implements OnInit {
             icon: 'warning'
           },
           click: record => {
-            this.http.delete(`/users/${record.userId}`).subscribe(res => {
-              this.msgSrv.success('User Deleted');
+            this.http.delete(`/users/${record.userId}`).pipe(
+              catchError(err => {
+                this.msgSrv.error(err.error.msg);
+                return of(null);
+              })
+            ).subscribe(res => {
               this.st.reload();
+              if (res == null) {
+                return ;
+              }
+              this.msgSrv.success(res.data.msg);
             });
           }
         },
@@ -101,15 +111,15 @@ export class UserListComponent implements OnInit {
               click: record => {
                 this.http.patch(`/users/status/${record.userId}`).pipe(
                   catchError(err => {
-                    this.msgSrv.error(err.eror.msg);
+                    this.msgSrv.error(err.error.msg);
                     return of(null);
                   })
                 ).subscribe(res => {
+                  this.st.reload();
                   if (res == null) {
                     return ;
                   }
                   this.msgSrv.success(res.data.msg);
-                  this.st.reload();
                 });
               }
             },
@@ -127,15 +137,15 @@ export class UserListComponent implements OnInit {
               click: record => {
                 this.http.patch(`/users/status/${record.userId}`).pipe(
                   catchError(err => {
-                    this.msgSrv.error(err.eror.msg);
+                    this.msgSrv.error(err.error.msg);
                     return of(null);
                   })
                 ).subscribe(res => {
+                  this.st.reload();
                   if (res == null) {
                     return ;
                   }
                   this.msgSrv.success(res.data.msg);
-                  this.st.reload();
                 });
               }
             }
@@ -155,6 +165,17 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {}
 
   add(): void {
-    this.modal.createStatic(UserCreateComponent).subscribe(() => this.st.reload());
+    this.modal.createStatic(UserCreateComponent).pipe(
+      catchError(err => {
+        this.msgSrv.error(err.error.msg);
+        return of(null);
+      })
+    ).subscribe(res => {
+      this.st.reload()
+      if (res == null) {
+        return ;
+      }
+      this.msgSrv.success(res.data.msg);
+    });
   }
 }

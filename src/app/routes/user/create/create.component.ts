@@ -4,7 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { HostService } from '../../host/host.service';
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { TenantService } from '../../tenant/tenant.service';
 
 @Component({
@@ -65,9 +65,12 @@ export class UserCreateComponent implements OnInit {
   }
 
   save(value: any): void {
-    this.http.post('/users', value).subscribe(res => {
-      this.msgSrv.success('User Created');
-      this.modal.close(true);
+    this.http.post('/users', value).pipe(
+      catchError(err => {
+        return of(err);
+      })
+    ).subscribe(res => {
+      this.modal.close(res);
     });
   }
 

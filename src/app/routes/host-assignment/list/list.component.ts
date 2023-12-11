@@ -13,7 +13,7 @@ export class HostAssignmentListComponent implements OnInit {
   url = `/users`;
   res: STRes = {
     process: (_, res) => {
-      return res.data
+      return res.data.users
     }
   }
   searchSchema: SFSchema = {
