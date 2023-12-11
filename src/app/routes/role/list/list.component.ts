@@ -6,6 +6,7 @@ import { RoleCreateComponent } from '../create/create.component';
 import { RoleEditComponent } from '../edit/edit.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { RoleDetailsComponent } from '../details/details.component';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-role-list',
@@ -15,7 +16,7 @@ export class RoleListComponent implements OnInit {
   url = `/role`;
   res: STRes ={
     process: (_, res) => {
-      return res.data
+      return res.data.roles
     }
   }
   searchSchema: SFSchema = {
@@ -51,9 +52,11 @@ export class RoleListComponent implements OnInit {
           modal: {
             component: RoleEditComponent
           },
-          click: (i, modal) => {
-            if (modal) {
-              this.msgSrv.success('Role Edited');
+          click: (i, res) => {
+            if (res.error) {
+              this.msgSrv.error(res.error.msg)
+            } else {
+              this.msgSrv.success(res.data.msg);
             }
             this.st.reload();
           }
@@ -70,9 +73,17 @@ export class RoleListComponent implements OnInit {
             icon: 'warning'
           },
           click: record => {
-            this.http.delete(`/role/${record.roleId}`).subscribe(res => {
-              this.msgSrv.success('Role Deleted');
+            this.http.delete(`/role/${record.roleId}`).pipe(
+              catchError(err => {
+                this.msgSrv.error(err.error.msg);
+                return of(null);
+              })
+            ).subscribe(res => {
               this.st.reload();
+              if (res == null) {
+                return ;
+              }
+              this.msgSrv.success(res.data.msg);
             })
           }
         }
@@ -89,6 +100,17 @@ export class RoleListComponent implements OnInit {
   ngOnInit(): void {}
 
   add(): void {
-    this.modal.createStatic(RoleCreateComponent).subscribe(() => this.st.reload());
+    this.modal.createStatic(RoleCreateComponent).pipe(
+      catchError(err => {
+        this.msgSrv.error(err.error.msg);
+        return of(null);
+      })
+    ).subscribe(res =>{
+      this.st.reload()
+      if (res == null) {
+        return ;
+      }
+      this.msgSrv.success(res.data.msg);
+    });
   }
 }

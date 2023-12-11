@@ -3,7 +3,7 @@ import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { RoleService } from '../role.service';
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-role-edit',
@@ -38,7 +38,7 @@ export class RoleEditComponent implements OnInit {
       widget: 'select',
       mode: 'multiple',
       asyncData: () => this.fetchAllRoles().pipe(
-        map((res: any) => res.data),
+        map((res: any) => res.data.roles),
         map(roles => roles.map((role: any) => ({ label: `${role.role} | ${role.description}`, value: role.roleId })))
       )
     },
@@ -69,8 +69,16 @@ export class RoleEditComponent implements OnInit {
   }
 
   edit(value: any): void {
-    this.http.patch(`/role/${this.record.roleId}`, value).subscribe(res => {
-      this.modal.close(true);
+    this.http.patch(`/role/${this.record.roleId}`, value).pipe(
+      catchError(err => {
+        this.modal.close(err);
+        return of(null)
+      })
+    ).subscribe(res => {
+      if (res == null) {
+        return ;
+      }
+      this.modal.close(res);
     });
   }
 

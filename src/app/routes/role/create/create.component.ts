@@ -3,7 +3,7 @@ import { SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { RoleService } from '../role.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class RoleCreateComponent implements OnInit {
       widget: 'select',
       mode: 'multiple',
       asyncData: () => this.fetchAllRoles().pipe(
-        map((res: any) => res.data),
+        map((res: any) => res.data.roles),
         map(roles => roles.map((role: any) => ({ label: `${role.role} | ${role.description}`, value: role.roleId })))
       )
     },
@@ -64,9 +64,16 @@ export class RoleCreateComponent implements OnInit {
   ngOnInit(): void {}
 
   save(value: any): void {
-    this.http.post(`/role`, value).subscribe(res => {
-      this.msgSrv.success('Role Created');
-      this.modal.close(true);
+    this.http.post(`/role`, value).pipe(
+      catchError(err => {
+        this.modal.close(err);
+        return of(null);
+      })
+    ).subscribe(res => {
+      if (res == null) {
+        return ;
+      }
+      this.modal.close(res);
     });
   }
 
