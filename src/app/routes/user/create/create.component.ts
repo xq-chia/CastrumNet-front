@@ -67,9 +67,13 @@ export class UserCreateComponent implements OnInit {
   save(value: any): void {
     this.http.post('/users', value).pipe(
       catchError(err => {
-        return of(err);
+        this.modal.close(err)
+        return of(null);
       })
     ).subscribe(res => {
+      if (res == null) {
+        return ;
+      }
       this.modal.close(res);
     });
   }
