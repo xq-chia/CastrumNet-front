@@ -4,7 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { RoleService } from '../../role/role.service';
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-role-assignment-edit',
@@ -56,7 +56,15 @@ export class RoleAssignmentEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.record.userId > 0) {
-      this.http.get(`/roleAssignment/${this.record.userId}`).subscribe(res => {
+      this.http.get(`/roleAssignment/${this.record.userId}`).pipe(
+        catchError(err => {
+          this.msgSrv.error(err.error.msg);
+          return of(null);
+        })
+      ).subscribe(res => {
+        if (res == null) {
+          return ;
+        }
         this.schema.properties!['roleAssignments'].maxItems = res.data.roleAssignments.length;
 
         this.i = res.data;
@@ -65,7 +73,18 @@ export class RoleAssignmentEditComponent implements OnInit {
   }
 
   edit(value: any): void {
-    this.http.patch(`/roleAssignment`, value).subscribe(res => {
+    value.userId = this.record.userId;
+    this.http.patch(`/roleAssignment`, value).pipe(
+      catchError(err => {
+        this.msgSrv.error(err.error.msg);
+        return of(null);
+      })
+    ).subscribe(res => {
+      if (res == null) {
+        this.modal.close(true);
+        return ;
+      }
+      this.msgSrv.success(res.data.msg);
       this.modal.close(true);
     });
   }

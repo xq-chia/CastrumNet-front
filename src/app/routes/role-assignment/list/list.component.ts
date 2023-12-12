@@ -38,10 +38,8 @@ export class RoleAssignmentListComponent implements OnInit {
           modal: {
             component: RoleAssignmentEditComponent
           },
-          click: (i, modal) => {
-            if (modal) {
-              this.msgSrv.success('Role Assignment Successful');
-            }
+          click: () => {
+            this.st.reload()
           }
         }
       ]
