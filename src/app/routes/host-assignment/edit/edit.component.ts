@@ -4,7 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { HostService } from '../../host/host.service';
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-host-assignment-edit',
@@ -38,7 +38,15 @@ export class HostAssignmentEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.record.userId > 0) {
-      this.http.get(`/hostAssignment/${this.record.userId}`).subscribe(res => {
+      this.http.get(`/hostAssignment/${this.record.userId}`).pipe(
+        catchError(err => {
+          this.msgSrv.error(err);
+          return of(null);
+        })
+      ).subscribe(res => {
+        if (res == null) {
+          return ;
+        }
         res.data.hostIds = res.data.userHosts.map((userHost: any) => userHost.hostId);
 
         this.i = res.data;
@@ -47,7 +55,17 @@ export class HostAssignmentEditComponent implements OnInit {
   }
 
   save(value: any): void {
-    this.http.patch(`/hostAssignment/${this.record.userId}`, value).subscribe(res => {
+    this.http.patch(`/hostAssignment/${this.record.userId}`, value).pipe(
+      catchError(err => {
+        this.msgSrv.error(err.error.msg);
+        return of(null)
+      })
+    ).subscribe(res => {
+      if (res == null) {
+        this.modal.close(true);
+        return ;
+      }
+      this.msgSrv.success(res.data.msg);
       this.modal.close(true);
     });
   }

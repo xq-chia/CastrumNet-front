@@ -38,10 +38,8 @@ export class HostAssignmentListComponent implements OnInit {
           modal: {
             component: HostAssignmentEditComponent
           },
-          click: (i, modal) => {
-            if (modal) {
-              this.msgSrv.success('Host Assignment Successful')
-            }
+          click: () => {
+            this.st.reload();
           }
         }
       ]
