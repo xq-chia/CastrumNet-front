@@ -37,7 +37,7 @@ export class UserCreateComponent implements OnInit {
       widget: 'select',
       mode: 'multiple',
       asyncData: () => this.fetchAllHosts().pipe(
-        map(res => res.data),
+        map(res => res.data.hosts),
         map((hosts: any[]) => hosts.map((host: any) => ({ label: `${host.host} | ${host.ipAddress}`, value: host.hostId })))
       )
     },
@@ -67,14 +67,16 @@ export class UserCreateComponent implements OnInit {
   save(value: any): void {
     this.http.post('/users', value).pipe(
       catchError(err => {
-        this.modal.close(err)
+        this.msgSrv.error(err.error.msg)
         return of(null);
       })
     ).subscribe(res => {
       if (res == null) {
+        this.modal.close(true);
         return ;
       }
-      this.modal.close(res);
+      this.msgSrv.success(res.data.msg)
+      this.modal.close(true);
     });
   }
 

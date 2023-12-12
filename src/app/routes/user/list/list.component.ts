@@ -59,12 +59,7 @@ export class UserListComponent implements OnInit {
           modal: {
             component: UserEditComponent
           },
-          click: (i, res) => {
-            if (res.error) {
-              this.msgSrv.error(res.error.msg)
-            } else {
-              this.msgSrv.success(res.data.msg);
-            }
+          click: () => {
             this.st.reload();
           }
         },
@@ -165,17 +160,8 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {}
 
   add(): void {
-    this.modal.createStatic(UserCreateComponent).pipe(
-      catchError(err => {
-        this.msgSrv.error(err.error.msg);
-        return of(null);
-      })
-    ).subscribe(res => {
+    this.modal.createStatic(UserCreateComponent).subscribe(() => {
       this.st.reload()
-      if (res == null) {
-        return ;
-      }
-      this.msgSrv.success(res.data.msg);
     });
   }
 }

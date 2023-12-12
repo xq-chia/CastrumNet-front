@@ -70,14 +70,16 @@ export class UserEditComponent implements OnInit {
   edit(value: any): void {
     this.http.patch(`/users/${this.record.userId}`, value).pipe(
       catchError(err => {
-        this.modal.close(err);
+        this.msgSrv.error(err.error.msg)
         return of(null);
       })
     ).subscribe(res => {
       if (res == null) {
+        this.modal.close(true)
         return ;
       }
-      this.modal.close(res);
+      this.msgSrv.success(res.data.msg)
+      this.modal.close(true);
     });
   }
 
