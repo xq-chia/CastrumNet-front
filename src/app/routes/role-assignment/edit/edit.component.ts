@@ -39,7 +39,7 @@ export class RoleAssignmentEditComponent implements OnInit {
           widget: 'select',
           mode: 'multiple',
           asyncData: () => this.fetchAllRoles().pipe(
-            map((res: any) => res.data),
+            map((res: any) => res.data.roles),
             map(roles => roles.map((role: any) => ({ label: `${role.role} | ${role.description}`, value: role.roleId })))
           )
         }
