@@ -4,6 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-host-edit',
@@ -30,27 +31,52 @@ export class HostEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.http.get(`/host/${this.record.hostId}`). subscribe(res => {
-      this.i = res.data;
+    this.http.get(`/host/${this.record.hostId}`).pipe(
+      catchError(err => {
+        this.msgSrv.error(err.errror.msg);
+        return of(null);
+      })
+    ).subscribe(res => {
+      if (res == null) {
+        return ;
+      }
+      this.i = res.data.host;
     });
   }
 
   edit(value: any): void {
-    this.http.patch(`/host/${this.record.hostId}`, value).subscribe(res => {
+    this.http.patch(`/host/${this.record.hostId}`, value).pipe(
+      catchError(err => {
+        this.msgSrv.error(err.error.msg);
+        return of(null);
+      })
+    ).subscribe(res => {
+      if (res == null) {
+        this.modal.close(true);
+        return ;
+      }
+      this.msgSrv.success(res.data.msg);
       this.modal.close(true);
     });
   }
 
   testConn(value: any) {
     this.testConnBtn.nzLoading = true;
-    this.http.post('/host/testConn', { ipAddress: value.ipAddress }).subscribe(res => {
-      console.log(res)
+    this.http.post('/host/testConn', { ipAddress: value.ipAddress }).pipe(
+      catchError(err => {
+        this.msgSrv.error(`Unable to test connection to ${value.ipAddress}`);
+        return of(null);
+      })
+    ).subscribe(res => {
+      if (res == null) {
+        return ;
+      }
       this.testConnBtn.nzLoading = false;
       this.isUp = res.data.isUp;
-      if (!res.data.isUp) {
-        this.msgSrv.error(`SSH Connection to ${value.ipAddress} failed. Please try again.`)
+      if (this.isUp) {
+        this.msgSrv.success(res.data.msg);
       } else {
-        this.msgSrv.success(`SSH Connection Success`)
+        this.msgSrv.error(res.data.msg);
       }
     })
   }

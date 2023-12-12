@@ -23,7 +23,7 @@ export class HostAssignmentEditComponent implements OnInit {
       widget: 'select',
       mode: 'multiple',
       asyncData: () => this.fetchAllHosts().pipe(
-        map(res => res.data),
+        map(res => res.data.hosts),
         map((hosts: any[]) => hosts.map((host: any) => ({ label: `${host.host} | ${host.ipAddress}`, value: host.hostId })))
       )
     }
