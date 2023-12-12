@@ -18,7 +18,7 @@ export class WorkstationListComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.http.get(`/userHost/${this.userId}`).subscribe(res => {
-      for (const item of res.data) {
+      for (const item of res.data.workstations) {
         item.host.userHostId = item.userHostId
         this.userHosts.push(item.host)
       }
