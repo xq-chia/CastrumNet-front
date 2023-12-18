@@ -20,7 +20,7 @@ export class RoleCreateComponent implements OnInit {
       parentIds: { type: 'string', title: 'Role Inheritance' },
       permissions: {
         type: 'array',
-        title: 'Permission',
+        title: 'Command Permission',
         minItems: 1,
         default: [{}],
         items: {
@@ -28,7 +28,19 @@ export class RoleCreateComponent implements OnInit {
           properties: {
             object: { type: 'string', title: 'Command' },
             allow: { type: 'boolean', title: 'Rule' }
-          }
+          },
+          required: ['object']
+        }
+      },
+      files: {
+        type: 'array',
+        title: 'Blocked File',
+        items: {
+          type: 'object',
+          properties: {
+            path: { type: 'string', title: 'Absolute Path' }
+          },
+          required: ['path']
         }
       }
     },
@@ -51,6 +63,9 @@ export class RoleCreateComponent implements OnInit {
           unCheckedChildren: 'Deny'
         }
       }
+    },
+    $files: {
+      grid: { arraySpan: 24 }
     }
   };
 
