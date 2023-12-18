@@ -27,7 +27,19 @@ export class RoleEditComponent implements OnInit {
           properties: {
             object: { type: 'string', title: 'Command' },
             allow: { type: 'boolean', title: 'Rule' }
-          }
+          },
+          required: ['object']
+        }
+      },
+      files: {
+        type: 'array',
+        title: 'Blocked File',
+        items: {
+          type: 'object',
+          properties: {
+            path: { type: 'string', title: 'Absolute Path' }
+          },
+          required: ['path']
         }
       }
     },
@@ -50,6 +62,9 @@ export class RoleEditComponent implements OnInit {
           unCheckedChildren: 'Deny'
         }
       }
+    },
+    $files: {
+      grid: { arraySpan: 24 }
     }
   };
 
@@ -62,7 +77,7 @@ export class RoleEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.record.roleId > 0) {
       this.http.get(`/role/${this.record.roleId}`).subscribe(res => {
-        res.data.parentIds = res.data.parentRoles.map((role: any) => role.roleId),
+        res.data.parentIds = res.data.parentRoles.map((role: any) => role.roleId);
         this.i = res.data;
       });
     }
