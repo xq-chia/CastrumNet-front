@@ -15,6 +15,7 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 import { UserRegisterComponent } from './passport/register/register.component';
+import { UserEditComponent } from './user/edit/edit.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,8 @@ const routes: Routes = [
      { path: 'host', loadChildren: () => import('./host/host.module').then((m) => m.HostModule) },
      { path: 'roleAssignment', loadChildren: () => import('./role-assignment/role-assignment.module').then((m) => m.RoleAssignmentModule) },
      { path: 'hostAssignment', loadChildren: () => import('./host-assignment/host-assignment.module').then((m) => m.HostAssignmentModule) },
-     { path: 'workstation', loadChildren: () => import('./workstation/workstation.module').then((m) => m.WorkstationModule) }]
+     { path: 'workstation', loadChildren: () => import('./workstation/workstation.module').then((m) => m.WorkstationModule) },
+     { path: 'profile', loadChildren: () => import('./profile/profile.module').then((m) => m.ProfileModule) }]
   },
   // 空白布局
   // {

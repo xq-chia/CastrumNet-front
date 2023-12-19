@@ -1,0 +1,18 @@
+<page-header [action]="phActionTpl">
+  <ng-template #phActionTpl>
+    <button (click)="edit()" nz-button nzType="primary">Edit Profile</button>
+  </ng-template>
+</page-header>
+<nz-card>
+    <sv-container>
+        <sv-title>Personal Details</sv-title>
+        <sv label="Name" col="1">{{concatName(user.firstName, user.lastName)}}</sv>
+        <sv label="Email" col="1">{{user.username}}</sv>
+        <sv label="Tenant" col="1">{{tenant.role}}</sv>
+        <sv-title>Host</sv-title>
+        <st #st [data]="hostUrl" [columns]="hostColumns" [res]="hostRes" [expand]="expand" expandRowByClick="true"></st>
+        <ng-template #expand let-item let-index="index" let-column="column">
+          <st #st [data]="item.roles" [columns]="roleColumns" [showHeader]="false"></st>
+        </ng-template>
+    </sv-container>
+</nz-card>
