@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { STColumn, STRes } from '@delon/abc/st';
 import { DA_SERVICE_TOKEN, ITokenService, TokenService } from '@delon/auth';
-import { _HttpClient } from '@delon/theme';
+import { ModalHelper, _HttpClient } from '@delon/theme';
+import { ProfileEditComponent } from '../edit/edit.component';
 
 @Component({
   selector: 'app-profile-details',
@@ -31,8 +32,9 @@ export class ProfileDetailsComponent implements OnInit {
 
   constructor(
     private http: _HttpClient,
-    private route: ActivatedRoute,
+    private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenSrv: ITokenService,
+    private modal: ModalHelper
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,11 @@ export class ProfileDetailsComponent implements OnInit {
   }
 
   edit() {
-
+    this.modal.createStatic(ProfileEditComponent, { record: { userId: this.userId } }).subscribe(res => {
+      if (res) {
+        this.tokenSrv.clear()
+        this.router.navigateByUrl('/passport/login')
+      }
+    })
   }
 }
