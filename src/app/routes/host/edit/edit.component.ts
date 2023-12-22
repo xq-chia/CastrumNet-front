@@ -21,7 +21,6 @@ export class HostEditComponent implements OnInit {
     required: ['host', 'ipAddress'],
   };
   ui: SFUISchema = { };
-  isUp: boolean = false;
   @ViewChild('testConnBtn') private testConnBtn!: NzButtonComponent;
 
   constructor(
@@ -58,27 +57,6 @@ export class HostEditComponent implements OnInit {
       this.msgSrv.success(res.data.msg);
       this.modal.close(true);
     });
-  }
-
-  testConn(value: any) {
-    this.testConnBtn.nzLoading = true;
-    this.http.post('/host/testConn', { ipAddress: value.ipAddress }).pipe(
-      catchError(err => {
-        this.msgSrv.error(`Unable to test connection to ${value.ipAddress}`);
-        return of(null);
-      })
-    ).subscribe(res => {
-      if (res == null) {
-        return ;
-      }
-      this.testConnBtn.nzLoading = false;
-      this.isUp = res.data.isUp;
-      if (this.isUp) {
-        this.msgSrv.success(res.data.msg);
-      } else {
-        this.msgSrv.error(res.data.msg);
-      }
-    })
   }
 
   close(): void {

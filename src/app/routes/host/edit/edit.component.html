@@ -5,7 +5,6 @@
 <sf *ngIf="i" #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="i" button="none">
   <div class="modal-footer">
     <button nz-button type="button" (click)="close()">关闭</button>
-    <button *ngIf="isUp" nz-button type="submit" nzType="primary" (click)="edit(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
-    <button #testConnBtn *ngIf="!isUp" nz-button (click)="testConn(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">Test Connection</button>
+    <button nz-button type="submit" nzType="primary" (click)="edit(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
   </div>
 </sf>
