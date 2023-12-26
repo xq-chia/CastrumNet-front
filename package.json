@@ -2,6 +2,7 @@
   "name": "castrum-net-front",
   "version": "0.0.0",
   "scripts": {
+    "compodoc": "npx compodoc -p tsconfig.doc.json",
     "ng": "ng",
     "start": "ng s -o",
     "build": "npm run ng-high-memory build",
