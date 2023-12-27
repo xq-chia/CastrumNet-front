@@ -79,14 +79,14 @@ export class DefaultInterceptor implements HttpInterceptor {
    */
   private refreshTokenRequest(): Observable<any> {
     const model = this.tokenSrv.get();
-    return this.http.post(`/api/auth/refresh`, null, null, { headers: { refresh_token: model?.['refresh_token'] || '' } });
+    return this.http.post(`/auth/refresh`, null, null, { headers: { refresh_token: model?.['refresh_token'] || '' } });
   }
 
   // #region 刷新Token方式一：使用 401 重新刷新 Token
 
   private tryRefreshToken(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     // 1、若请求为刷新Token请求，表示来自刷新Token可以直接跳转登录页
-    if ([`/api/auth/refresh`].some(url => req.url.includes(url))) {
+    if ([`/auth/refresh`].some(url => req.url.includes(url))) {
       this.toLogin();
       return throwError(() => ev);
     }
@@ -108,7 +108,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         this.refreshToking = false;
         this.refreshToken$.next(res);
         // 重新保存新 token
-        this.tokenSrv.set(res);
+        this.tokenSrv.set(res.data);
         // 重新发起请求
         return next.handle(this.reAttachToken(req));
       }),
@@ -155,9 +155,8 @@ export class DefaultInterceptor implements HttpInterceptor {
       .subscribe({
         next: res => {
           // TODO: Mock expired value
-          res.expired = +new Date() + 1000 * 60 * 5;
           this.refreshToking = false;
-          this.tokenSrv.set(res);
+          this.tokenSrv.set(res.data);
         },
         error: () => this.toLogin()
       });
