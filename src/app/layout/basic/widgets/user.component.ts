@@ -12,17 +12,9 @@ import { SettingsService, User } from '@delon/theme';
     </div>
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
       <div nz-menu class="width-sm">
-        <div nz-menu-item routerLink="/pro/account/center">
+        <div nz-menu-item routerLink="/profile">
           <i nz-icon nzType="user" class="mr-sm"></i>
           Account Center
-        </div>
-        <div nz-menu-item routerLink="/pro/account/settings">
-          <i nz-icon nzType="setting" class="mr-sm"></i>
-          Account Settings
-        </div>
-        <div nz-menu-item routerLink="/exception/trigger">
-          <i nz-icon nzType="close-circle" class="mr-sm"></i>
-          Trigger Error
         </div>
         <li nz-menu-divider></li>
         <div nz-menu-item (click)="logout()">
