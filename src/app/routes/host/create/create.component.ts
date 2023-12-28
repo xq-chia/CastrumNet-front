@@ -4,7 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { catchError, of } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-host-create',
@@ -15,12 +15,23 @@ export class HostCreateComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      host: { type: 'string', title: 'Host' },
-      ipAddress: { type: 'string', title: 'IP Address' },
+      host: {
+        type: 'string',
+        title: 'Host',
+        maxLength: 50
+      },
+      ipAddress: { type: 'string', title: 'IP Address', format: 'ipv4' },
     },
     required: ['host', 'ipAddress'],
   };
-  ui: SFUISchema = {};
+  ui: SFUISchema = {
+    $ipAddress: {
+      validator: (value: any) => this.http.get(`/host/check/${value}`).pipe(
+        map(res => res.data ? [{ keyword: 'pattern', message: 'Host is already in the asset pool' }] : [])
+      ),
+      errors: { format: 'Invalid IPv4 address' }
+    }
+  };
   @ViewChild('testConnBtn') private testConnBtn!: NzButtonComponent;
 
   constructor(
