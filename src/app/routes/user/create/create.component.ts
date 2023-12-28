@@ -6,6 +6,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 import { HostService } from '../../host/host.service';
 import { catchError, map, of } from 'rxjs';
 import { TenantService } from '../../tenant/tenant.service';
+import { MinLengthValidator } from '@angular/forms';
 
 @Component({
   selector: 'app-user-create',
@@ -25,7 +26,7 @@ export class UserCreateComponent implements OnInit {
       password: {
         type: 'string',
         title: 'Password',
-        maxLength: 100,
+        minLength: 8,
       },
       firstName: {
         type: 'string',
@@ -50,6 +51,7 @@ export class UserCreateComponent implements OnInit {
     },
     $password: {
       type: 'password',
+      errors: { 'minLength': 'Password should not be shorter than 8 characters' }
     },
     $tenantId: {
       widget: 'select',
