@@ -64,7 +64,7 @@ export class RoleCreateComponent implements OnInit {
         }
       }
     },
-    required: ['roleId', 'role', 'description']
+    required: ['role', 'description']
   };
   ui: SFUISchema = {
     $parentIds: {
