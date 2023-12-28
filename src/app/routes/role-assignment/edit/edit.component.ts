@@ -21,6 +21,7 @@ export class RoleAssignmentEditComponent implements OnInit {
         items: {
           type: 'object',
           properties: {
+            userHostId: { type: 'number', title: 'Workstation', readOnly: true},
             host: { type: 'string', title: 'Host', readOnly: true },
             ipAddress: { type: 'string', title: 'IP Address', readOnly: true },
             roleIds: { type: 'string', title: 'Role' }
@@ -28,13 +29,15 @@ export class RoleAssignmentEditComponent implements OnInit {
         },
       }
     },
-    required: ['owner', 'callNo', 'href', 'description']
   };
   ui: SFUISchema = {
     $roleAssignments: {
       removable: false,
       grid: { arraySpan: 24 },
       $items: {
+        $userHostId: {
+          hidden: true
+        },
         $roleIds: {
           widget: 'select',
           mode: 'multiple',
