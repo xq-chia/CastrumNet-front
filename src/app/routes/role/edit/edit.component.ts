@@ -37,6 +37,7 @@ export class RoleEditComponent implements OnInit {
         items: {
           type: 'object',
           properties: {
+            permId: { type: 'number', title: 'Permission Id', readOnly: true },
             object: { type: 'string', title: 'Command' },
             allow: { type: 'boolean', title: 'Rule' }
           },
@@ -73,6 +74,9 @@ export class RoleEditComponent implements OnInit {
     $permissions: {
       grid: { arraySpan: 24 },
       $items: {
+        $permId: {
+          hidden: true
+        },
         $allow: {
           checkedChildren: 'Allow',
           unCheckedChildren: 'Deny'
