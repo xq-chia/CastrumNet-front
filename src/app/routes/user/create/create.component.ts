@@ -16,16 +16,41 @@ export class UserCreateComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      username: { type: 'string', title: 'Username' },
-      password: { type: 'string', title: 'Password' },
-      firstName: { type: 'string', title: 'First Name' },
-      lastName: { type: 'string', title: 'Last Name' },
+      username: {
+        type: 'string',
+        title: 'Username',
+        format: 'email', 
+        maxLength: 254
+      },
+      password: {
+        type: 'string',
+        title: 'Password',
+        maxLength: 100,
+      },
+      firstName: {
+        type: 'string',
+        title: 'First Name',
+        maxLength: 50
+      },
+      lastName: {
+        type: 'string',
+        title: 'Last Name',
+        maxLength: 50
+      },
       tenantId: { type: 'string', title: 'Tenant' },
       hostIds: { type: 'string', title: 'Host' }
     },
-    required: ['userId', 'username', 'password', 'firstName', 'lastName', 'tenantId'],
+    required: ['username', 'password', 'firstName', 'lastName', 'tenantId'],
   };
   ui: SFUISchema = {
+    $username: {
+      validator: (value: any) => this.http.get(`/users/check/${value}`).pipe(
+        map(res => res.data ? [{ keyword: 'pattern', message: 'Username has been taken' }] : [])
+      )
+    },
+    $password: {
+      type: 'password',
+    },
     $tenantId: {
       widget: 'select',
       asyncData: () => this.fetchAllTenants().pipe(
@@ -41,9 +66,6 @@ export class UserCreateComponent implements OnInit {
         map((hosts: any[]) => hosts.map((host: any) => ({ label: `${host.host} | ${host.ipAddress}`, value: host.hostId })))
       )
     },
-    $password: {
-      type: 'password'
-    }
   };
 
   constructor(
