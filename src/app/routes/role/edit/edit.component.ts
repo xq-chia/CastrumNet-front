@@ -15,9 +15,21 @@ export class RoleEditComponent implements OnInit {
   schema: SFSchema = {
     properties: {
       roleId: { type: 'number', title: 'Role Id', readOnly: true },
-      role: { type: 'string', title: 'Role' },
-      description: { type: 'string', title: 'Description' },
-      parentIds: { type: 'string', title: 'Role Inheritance' },
+      role: {
+        type: 'string',
+        title: 'Role',
+        maxLength: 50
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        maxLength: 100
+      },
+      parentIds: {
+        type: 'string',
+        title: 'Role Inheritance',
+        default: []
+      },
       permissions: {
         type: 'array',
         title: 'Permission',
@@ -34,6 +46,7 @@ export class RoleEditComponent implements OnInit {
       files: {
         type: 'array',
         title: 'Blocked File',
+        default: [{}],
         items: {
           type: 'object',
           properties: {
@@ -43,9 +56,12 @@ export class RoleEditComponent implements OnInit {
         }
       }
     },
-    required: ['owner', 'callNo', 'href', 'description'],
+    required: ['role', 'description']
   };
   ui: SFUISchema = {
+    $roleId: {
+      hidden: true
+    },
     $parentIds: {
       widget: 'select',
       mode: 'multiple',
