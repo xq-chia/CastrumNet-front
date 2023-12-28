@@ -17,16 +17,30 @@ export class UserEditComponent implements OnInit {
   schema: SFSchema = {
     properties: {
       userId: { type: 'number', title: 'User Id', readOnly: true },
-      username: { type: 'string', title: 'Username' },
-      password: { type: 'string', title: 'Password' },
-      firstName: { type: 'string', title: 'First Name' },
-      lastName: { type: 'string', title: 'Last Name' },
+      username: { type: 'string', title: 'Username', readOnly: true },
+      password: {
+        type: 'string',
+        title: 'Password',
+      },
+      firstName: {
+        type: 'string',
+        title: 'First Name',
+        maxLength: 50
+      },
+      lastName: {
+        type: 'string',
+        title: 'Last Name',
+        maxLength: 50
+      },
       tenantId: { type: 'string', title: 'Tenant' },
       status: { type: 'boolean', title: 'Status' },
     },
-    required: ['userId', 'username', 'password', 'firstName', 'lastName', 'tenantId']
+    required: ['username', 'firstName', 'lastName', 'tenantId']
   };
   ui: SFUISchema = {
+    $userId: {
+      hidden: true
+    },
     $tenantId: {
       widget: 'select',
       asyncData: () => this.fetchAllTenants().pipe(
@@ -39,7 +53,8 @@ export class UserEditComponent implements OnInit {
       unCheckedChildren: 'Frozen'
     },
     $password: {
-      type: 'password'
+      type: 'password',
+      hidden: true
     }
   };
 
@@ -48,7 +63,6 @@ export class UserEditComponent implements OnInit {
     private msgSrv: NzMessageService,
     public http: _HttpClient,
     private tenantService: TenantService,
-    private hostService: HostService,
   ) {}
 
   ngOnInit(): void {
