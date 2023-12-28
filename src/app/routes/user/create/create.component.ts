@@ -39,7 +39,7 @@ export class UserCreateComponent implements OnInit {
         maxLength: 50
       },
       tenantId: { type: 'string', title: 'Tenant' },
-      hostIds: { type: 'string', title: 'Host' }
+      hostIds: { type: 'string', title: 'Host', default: [] }
     },
     required: ['username', 'password', 'firstName', 'lastName', 'tenantId'],
   };
