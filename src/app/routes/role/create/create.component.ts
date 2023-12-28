@@ -15,9 +15,21 @@ export class RoleCreateComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      role: { type: 'string', title: 'Role' },
-      description: { type: 'string', title: 'Description' },
-      parentIds: { type: 'string', title: 'Role Inheritance' },
+      role: {
+        type: 'string',
+        title: 'Role',
+        maxLength: 50
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        maxLength: 100
+      },
+      parentIds: {
+        type: 'string',
+        title: 'Role Inheritance',
+        default: []
+      },
       permissions: {
         type: 'array',
         title: 'Command Permission',
@@ -26,8 +38,12 @@ export class RoleCreateComponent implements OnInit {
         items: {
           type: 'object',
           properties: {
-            object: { type: 'string', title: 'Command' },
-            allow: { type: 'boolean', title: 'Rule' }
+            object: {
+              type: 'string',
+              title: 'Command',
+              maxLength: 150
+            },
+            allow: { type: 'boolean', title: 'Rule', default: false }
           },
           required: ['object']
         }
@@ -38,7 +54,11 @@ export class RoleCreateComponent implements OnInit {
         items: {
           type: 'object',
           properties: {
-            path: { type: 'string', title: 'Absolute Path' }
+            path: {
+              type: 'string',
+              title: 'Absolute Path',
+              maxLength: 150
+            }
           },
           required: ['path']
         }
