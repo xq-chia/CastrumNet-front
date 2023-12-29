@@ -68,7 +68,8 @@ export class RoleEditComponent implements OnInit {
       mode: 'multiple',
       asyncData: () => this.fetchAllRoles().pipe(
         map((res: any) => res.data.roles),
-        map(roles => roles.map((role: any) => ({ label: `${role.role} | ${role.description}`, value: role.roleId })))
+        map(roles => roles.filter((role: any) => role.roleId != this.i.roleId)),
+        map(roles => roles.map((role: any) => ({ label: `${role.roleId}: ${role.role} | ${role.description}`, value: role.roleId })))
       )
     },
     $permissions: {
