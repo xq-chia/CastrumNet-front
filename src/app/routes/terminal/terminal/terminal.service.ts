@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TokenService } from '@delon/auth';
 import { io, Socket } from 'socket.io-client';
 
 @Injectable({
@@ -18,5 +17,9 @@ export class TerminalService {
 
   async updateBuffer(buffer: string) {
     this.io.emit('buffer', buffer)
+  }
+
+  async terminate() {
+    this.io.emit('term')
   }
 }

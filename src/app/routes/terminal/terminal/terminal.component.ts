@@ -65,5 +65,6 @@ export class TerminalTerminalComponent implements OnInit, AfterViewInit, OnDestr
 
   ngOnDestroy(): void {
     this.socket.off('error')
+    this.socketService.terminate()
   }
 }
