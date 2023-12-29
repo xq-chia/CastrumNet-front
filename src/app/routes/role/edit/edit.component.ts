@@ -69,6 +69,7 @@ export class RoleEditComponent implements OnInit {
       asyncData: () => this.fetchAllRoles().pipe(
         map((res: any) => res.data.roles),
         map(roles => roles.filter((role: any) => role.roleId != this.i.roleId)),
+        map(roles => roles.filter((role: any) => this.i.childIds.indexOf(role.roleId) < 0)),
         map(roles => roles.map((role: any) => ({ label: `${role.roleId}: ${role.role} | ${role.description}`, value: role.roleId })))
       )
     },
@@ -99,6 +100,7 @@ export class RoleEditComponent implements OnInit {
     if (this.record.roleId > 0) {
       this.http.get(`/role/${this.record.roleId}`).subscribe(res => {
         res.data.parentIds = res.data.parentRoles.map((role: any) => role.roleId);
+        res.data.childIds = res.data.childRoles.map((role: any) => role.roleId);
         this.i = res.data;
       });
     }
