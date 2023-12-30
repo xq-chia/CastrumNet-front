@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { TokenService } from '@delon/auth';
 import { MenuService } from '@delon/theme';
 import { Observable } from 'rxjs';
 
@@ -16,5 +17,17 @@ export const startPageGuard: CanActivateFn = (_, state): boolean | Observable<bo
   //   inject(Router).navigateByUrl(menuSrv.menus[0].link!);
   //   return false;
   // }
+  return true;
+};
+
+export const multiTenantGuard: CanActivateFn = (_, state): boolean | Observable<boolean> => {
+  let isAdmin: boolean;
+  const menuSrv = inject(MenuService);
+
+  isAdmin = menuSrv.menus[0].text == 'Entity';
+
+  if (!isAdmin && !state.url.startsWith('/workstation') && !state.url.startsWith('/terminal')) {
+    return false;
+  }
   return true;
 };

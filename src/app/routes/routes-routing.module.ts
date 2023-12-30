@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { startPageGuard } from '@core';
+import { multiTenantGuard, startPageGuard } from '@core';
 import { authSimpleCanActivate } from '@delon/auth';
 import { environment } from '@env/environment';
 // layout
@@ -22,6 +22,7 @@ const routes: Routes = [
     path: '',
     component: LayoutBasicComponent,
     canActivate: [startPageGuard, authSimpleCanActivate],
+    canActivateChild: [multiTenantGuard],
     children: [
       { path: '', redirectTo: 'workstation', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard' } },
