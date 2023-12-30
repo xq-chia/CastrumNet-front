@@ -17,6 +17,11 @@ import { SettingsService, User } from '@delon/theme';
           Account Center
         </div>
         <li nz-menu-divider></li>
+        <div nz-menu-item routerLink="/passport/lock">
+          <i nz-icon nzType="lock" class="mr-sm"></i>
+          Lock Screen
+        </div>
+        <li nz-menu-divider></li>
         <div nz-menu-item (click)="logout()">
           <i nz-icon nzType="logout" class="mr-sm"></i>
           Logout
