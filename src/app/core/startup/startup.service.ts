@@ -35,7 +35,7 @@ export class StartupService {
       return this.httpClient.get('init/app').pipe(
         catchError((res: NzSafeAny) => {
           console.warn(`StartupService.load: Network request failed`, res);
-          setTimeout(() => this.router.navigateByUrl(`/exception/500`));
+          // setTimeout(() => this.router.navigateByUrl(`/exception/500`));
           return of({});
         }),
         map((res: NzSafeAny) => res.data ?? {}),
