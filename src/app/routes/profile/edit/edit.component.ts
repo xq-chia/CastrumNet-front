@@ -17,7 +17,11 @@ export class ProfileEditComponent implements OnInit {
     properties: {
       userId: { type: 'number', title: 'User Id', readOnly: true },
       username: { type: 'string', title: 'Username', readOnly: true },
-      password: { type: 'string', title: 'Password' },
+      password: {
+        type: 'string',
+        title: 'Password',
+        minLength: 8
+      },
       confirmPassword: { type: 'string', title: 'Confirm Password' },
       firstName: { type: 'string', title: 'First Name' },
       lastName: { type: 'string', title: 'Last Name' },
@@ -56,7 +60,7 @@ export class ProfileEditComponent implements OnInit {
         res.firstName = res.data.user.firstName;
         res.lastName = res.data.user.lastName;
         res.username = res.data.user.username;
-        res.password = res.data.user.password;
+        res.password = '';
         res.status = res.data.user.status;
         res.tenantId = res.data.tenant.tenantId;
 
