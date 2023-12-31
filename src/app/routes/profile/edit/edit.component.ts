@@ -3,7 +3,8 @@ import { SFComponent, SFSchema, SFUISchema, SFValue, SFValueChange } from '@delo
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { catchError, of } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
+import { TenantService } from '../../tenant/tenant.service';
 
 @Component({
   selector: 'app-profile-edit',
@@ -35,6 +36,13 @@ export class ProfileEditComponent implements OnInit {
     $password: {
       type: 'password'
     },
+    $tenantId: {
+      widget: 'select',
+      asyncData: () => this.fetchAllTenants().pipe(
+        map((res: any) => res.data),
+        map(tenants => tenants.map((tenant: any) => ({ label: `${tenant.role}`, value: tenant.tenantId })))
+      )
+    },
     $confirmPassword: {
       type: 'password',
       validator: (value: any) => {
@@ -51,6 +59,7 @@ export class ProfileEditComponent implements OnInit {
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
+    private tenantService: TenantService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +76,10 @@ export class ProfileEditComponent implements OnInit {
         this.i = res;
       });
     }
+  }
+
+  fetchAllTenants() {
+    return this.tenantService.fetchAllTenants();
   }
 
   save(value: any): void {
