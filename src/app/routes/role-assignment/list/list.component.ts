@@ -61,8 +61,4 @@ export class RoleAssignmentListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { }
-
-  search(event: any) {
-    this.st.load(1, { q: event.q })
-  }
 }

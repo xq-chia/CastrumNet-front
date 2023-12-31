@@ -164,8 +164,4 @@ export class UserListComponent implements OnInit {
       this.st.reload()
     });
   }
-
-  search(event: any) {
-    this.st.load(1, { q: event.q })
-  }
 }
