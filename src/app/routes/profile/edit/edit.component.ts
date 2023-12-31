@@ -32,6 +32,9 @@ export class ProfileEditComponent implements OnInit {
     required: ['firstName', 'lastName', 'password', 'confirmPassword']
   };
   ui: SFUISchema = {
+    $userId: {
+      hidden: true
+    },
     // TODO: password mismatch
     $password: {
       type: 'password'
