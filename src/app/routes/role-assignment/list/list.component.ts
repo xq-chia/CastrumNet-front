@@ -25,9 +25,9 @@ export class RoleAssignmentListComponent implements OnInit {
   }
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      q: {
         type: 'string',
-        title: '编号'
+        title: 'Keyword'
       }
     }
   };
@@ -61,4 +61,8 @@ export class RoleAssignmentListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { }
+
+  search(event: any) {
+    this.st.load(1, { q: event.q })
+  }
 }

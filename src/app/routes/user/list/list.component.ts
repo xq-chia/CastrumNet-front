@@ -27,9 +27,9 @@ export class UserListComponent implements OnInit {
   }
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      q: {
         type: 'string',
-        title: '编号'
+        title: 'Keyword'
       }
     }
   };
@@ -163,5 +163,9 @@ export class UserListComponent implements OnInit {
     this.modal.createStatic(UserCreateComponent).subscribe(() => {
       this.st.reload()
     });
+  }
+
+  search(event: any) {
+    this.st.load(1, { q: event.q })
   }
 }
