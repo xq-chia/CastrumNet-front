@@ -12,13 +12,12 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 })
 export class HostAssignmentListComponent implements OnInit {
   userId: number = this.tokenSrv.get()!['id'];
-  url = `/users`;
+  url = `/users?sod=${this.userId}`;
   res: STRes = {
     process: (_, res) => {
       let users: any[];
 
       users = res.data.users;
-      users = users.filter(user => user.userId != this.userId)
 
       return users;
     }
