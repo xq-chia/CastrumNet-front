@@ -21,9 +21,9 @@ export class RoleListComponent implements OnInit {
   }
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      q: {
         type: 'string',
-        title: '编号'
+        title: 'Keyword'
       }
     }
   };
