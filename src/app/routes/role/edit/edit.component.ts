@@ -70,7 +70,7 @@ export class RoleEditComponent implements OnInit {
         map((res: any) => res.data.roles),
         map(roles => roles.filter((role: any) => role.roleId != this.i.roleId)),
         map(roles => roles.filter((role: any) => this.i.childIds.indexOf(role.roleId) < 0)),
-        map(roles => roles.map((role: any) => ({ label: `${role.roleId}: ${role.role} | ${role.description}`, value: role.roleId })))
+        map(roles => roles.map((role: any) => ({ label: `${role.role} | ${role.description}`, value: role.roleId })))
       )
     },
     $permissions: {
