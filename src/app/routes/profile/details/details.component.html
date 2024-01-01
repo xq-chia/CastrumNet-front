@@ -1,5 +1,7 @@
-<page-header class="text-right">
-    <button (click)="edit()" nz-button nzType="primary" class="d-inline-block">Edit Profile</button>
+<page-header [action]="phActionTpl">
+  <ng-template #phActionTpl>
+    <button (click)="edit()" nz-button nzType="primary">Edit Profile</button>
+  </ng-template>
 </page-header>
 <nz-card>
     <sv-container>
