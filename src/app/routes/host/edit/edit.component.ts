@@ -26,7 +26,7 @@ export class HostEditComponent implements OnInit {
   ui: SFUISchema = {
     $ipAddress: {
       validator: (value: any) => this.http.get(`/host/check/${value}`).pipe(
-        map(res => res.data ? [{ keyword: 'pattern', message: 'Host is already in the asset pool' }] : [])
+        map(res => res.data && this.i.ipAddress != value ? [{ keyword: 'pattern', message: 'Host is already in the asset pool' }] : [])
       ),
       errors: { format: 'Invalid IPv4 address' },
     }
