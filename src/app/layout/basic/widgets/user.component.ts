@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SettingsService, User } from '@delon/theme';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'header-user',
@@ -39,10 +40,17 @@ export class HeaderUserComponent {
   constructor(
     private settings: SettingsService,
     private router: Router,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private msgSrv: NzMessageService
   ) {}
 
   logout(): void {
+    let name: string;
+
+    name = this.tokenService.get()!['name']
+    name = name.split(' ')[0]
+
+    this.msgSrv.success(`Logged out. See you ${name}`);
     this.tokenService.clear();
     this.router.navigateByUrl(this.tokenService.login_url!);
   }
