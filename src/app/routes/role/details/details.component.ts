@@ -13,6 +13,7 @@ export class RoleDetailsComponent implements OnInit {
   i: any;
   tblData: STData[] = [];
   permData: STData[] = [];
+  fileData: STData[] = [];
   @ViewChild('parentTbl') private readonly parentTbl!: STComponent;
   parentCol: STColumn[] = [
     { title: 'Role Id', index: 'roleId' },
@@ -22,6 +23,9 @@ export class RoleDetailsComponent implements OnInit {
   permCol: STColumn[] = [
     { title: 'Command', index: 'object' },
     { title: 'Rule', index: 'allow', type: 'yn' },
+  ];
+  fileCol: STColumn[] = [
+    { title: 'Absolute Path', index: 'path' },
   ];
 
   constructor(
@@ -34,7 +38,6 @@ export class RoleDetailsComponent implements OnInit {
     this.http.get(`/role/${this.record.roleId}`).subscribe(res => {
 
       this.i = res.data
-      console.log(res.data)
       
       for (const role of res.data.parentRoles) {
         this.tblData.push({ roleId: role.roleId, role: role.role, description: role.description });
@@ -42,6 +45,10 @@ export class RoleDetailsComponent implements OnInit {
 
       for (const permission of res.data.permissions) {
         this.permData.push({ object: permission.object, allow: permission.allow })
+      }
+
+      for (const file of res.data.files) {
+        this.fileData.push({ path: file.path })
       }
     });
   }
