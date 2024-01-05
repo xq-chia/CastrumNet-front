@@ -49,7 +49,6 @@ export class UserListComponent implements OnInit {
           drawer: {
             title: 'Details',
             component: UserDetailsComponent,
-            size: 'xl'
           }
         },
         {

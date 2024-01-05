@@ -42,7 +42,6 @@ export class RoleListComponent implements OnInit {
           drawer: {
             title: 'Details',
             component: RoleDetailsComponent,
-            size: 'xl'
           }
         },
         {
