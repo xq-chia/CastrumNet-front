@@ -6,5 +6,10 @@
   <sv label="Username">{{ i.username }}</sv>
   <sv label="Name">{{ concatName(i.firstName, i.lastName) }}</sv>
   <sv label="Tenant Type">{{ i.tenant }}</sv>
+  <sv-title>Host</sv-title>
+  <st #st [data]="hostUrl" [columns]="hostColumns" [res]="hostRes" [expand]="expand" expandRowByClick="true"></st>
+  <ng-template #expand let-item let-index="index" let-column="column">
+    <st #st [data]="item.roles" [columns]="roleColumns" [showHeader]="false"></st>
+  </ng-template>
 </div>
 <div class="modal-footer"></div>
