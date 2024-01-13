@@ -70,9 +70,10 @@ import { environment } from '@env/environment';
 })
 export class LayoutBasicComponent {
   options: LayoutDefaultOptions = {
-    showHeaderCollapse: false,
+    showHeaderCollapse: true,
     // logoExpanded: `./assets/logo-full.svg`,
     logoExpanded: `../../../assets/logo no colour.svg`,
+    logoCollapsed: `../../../assets/logo no colour.svg`,
     // logoCollapsed: `./assets/logo.svg`,
   };
   searchToggleStatus = false;
