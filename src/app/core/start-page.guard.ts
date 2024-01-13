@@ -26,7 +26,7 @@ export const multiTenantGuard: CanActivateFn = (_, state): boolean | Observable<
 
   isAdmin = menuSrv.menus[0].text == 'Entity';
 
-  if (!isAdmin && !state.url.startsWith('/workstation') && !state.url.startsWith('/terminal')) {
+  if (!isAdmin && !state.url.startsWith('/workstation') && !state.url.startsWith('/terminal') && !state.url.startsWith('/profile')) {
     return false;
   }
   return true;
